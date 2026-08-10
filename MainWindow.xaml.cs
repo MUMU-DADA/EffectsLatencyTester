@@ -16,6 +16,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ThemeComboBox.SelectedValue = ThemeManager.CurrentMode.ToString();
         DriverComboBox.SelectionChanged += DriverComboBox_SelectionChanged;
         SampleRateComboBox.SelectionChanged += MeasurementSetting_SelectionChanged;
         BufferSizeComboBox.SelectionChanged += MeasurementSetting_SelectionChanged;
@@ -55,6 +56,15 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ThemeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (ThemeComboBox.SelectedValue is string value &&
+            Enum.TryParse<ThemeMode>(value, ignoreCase: true, out var mode) &&
+            mode != ThemeManager.CurrentMode)
+        {
+            ThemeManager.SetTheme(mode);
+        }
+    }
     private void RefreshButton_Click(object sender, RoutedEventArgs e)
     {
         RefreshDrivers();

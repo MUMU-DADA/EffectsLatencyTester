@@ -4,12 +4,14 @@
         xmlns:local="clr-namespace:EffectsLatencyTester"
         Title="{x:Static local:I18n.AppTitle}"
         Icon="/EffectsLatencyTester;component/Assets/EffectsLatencyTesterIcon.ico"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource ForegroundBrush}"
         Width="1600"
         Height="820"
         MinWidth="1260"
         MinHeight="600"
         WindowStartupLocation="CenterScreen">
-    <Grid Margin="24">
+    <Grid Margin="24" Background="{DynamicResource WindowBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -22,9 +24,22 @@
             <ColumnDefinition Width="600" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.ColumnSpan="3" FontSize="24" FontWeight="SemiBold"
-                   Text="{x:Static local:I18n.AppTitle}" />
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Margin="0,8,0,18" Foreground="#666"
+        <Grid Grid.ColumnSpan="3">
+            <TextBlock FontSize="24" FontWeight="SemiBold"
+                       Text="{x:Static local:I18n.AppTitle}" />
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static local:I18n.ThemeLabel}" />
+                <ComboBox x:Name="ThemeComboBox" Width="150" Margin="10,0,0,0"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          SelectedValuePath="Tag"
+                          SelectionChanged="ThemeComboBox_SelectionChanged">
+                    <ComboBoxItem Tag="Dark" HorizontalContentAlignment="Left" Content="{x:Static local:I18n.ThemeDark}" />
+                    <ComboBoxItem Tag="Light" HorizontalContentAlignment="Left" Content="{x:Static local:I18n.ThemeLight}" />
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Margin="0,8,0,18"
                    Text="{x:Static local:I18n.Description}" TextWrapping="Wrap" />
 
         <GroupBox Grid.Row="2" Grid.Column="0" Header="{x:Static local:I18n.WaveformGroup}" Padding="12">
@@ -53,31 +68,57 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox x:Name="DriverComboBox" Width="470" DisplayMemberPath="Name" />
+                    <ComboBox x:Name="DriverComboBox" Width="470" HorizontalContentAlignment="Left">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                     <Button Margin="10,0,0,0" Padding="14,4" Click="RefreshButton_Click"
                             Content="{x:Static local:I18n.Refresh}" />
                 </StackPanel>
                 <StackPanel Grid.Row="1" Margin="0,14,0,0" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="{x:Static local:I18n.SampleRate}" />
-                    <ComboBox x:Name="SampleRateComboBox" Width="130" Margin="8,0,18,0"
-                              DisplayMemberPath="DisplayName" />
+                    <ComboBox x:Name="SampleRateComboBox" Width="130" Margin="8,0,18,0" HorizontalContentAlignment="Left">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                     <TextBlock VerticalAlignment="Center" Text="{x:Static local:I18n.BufferSize}" />
-                    <ComboBox x:Name="BufferSizeComboBox" Width="130" Margin="8,0,0,0"
-                              DisplayMemberPath="DisplayName"
-                              ToolTip="{x:Static local:I18n.BufferTooltip}" />
+                    <ComboBox x:Name="BufferSizeComboBox" Width="130" Margin="8,0,0,0" HorizontalContentAlignment="Left"
+                              ToolTip="{x:Static local:I18n.BufferTooltip}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Margin="0,12,0,0" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="{x:Static local:I18n.OutputChannel}" />
-                    <ComboBox x:Name="OutputChannelComboBox" Width="460" Margin="8,0,0,0"
-                              DisplayMemberPath="DisplayName" />
+                    <ComboBox x:Name="OutputChannelComboBox" Width="460" Margin="8,0,0,0" HorizontalContentAlignment="Left">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Margin="0,10,0,0" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="{x:Static local:I18n.InputChannel}" />
-                    <ComboBox x:Name="InputChannelComboBox" Width="460" Margin="8,0,0,0"
-                              DisplayMemberPath="DisplayName" />
+                    <ComboBox x:Name="InputChannelComboBox" Width="460" Margin="8,0,0,0" HorizontalContentAlignment="Left">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
                 <TextBox x:Name="DetailsTextBox" Grid.Row="4" IsReadOnly="True"
-                         AcceptsReturn="True" Background="#FAFAFA" BorderThickness="1"
+                         AcceptsReturn="True" BorderThickness="1"
                          FontFamily="Consolas" IsReadOnlyCaretVisible="False"
                          MinHeight="110" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
                 <StackPanel Grid.Row="5" Margin="0,12,0,0" Orientation="Horizontal">
@@ -87,7 +128,7 @@
                             Click="MeasureEffectButton_Click" Content="{x:Static local:I18n.EffectButton}" />
                 </StackPanel>
                 <TextBlock x:Name="BaselineTextBlock" Grid.Row="6" Margin="0,10,0,0"
-                           Foreground="#666" Text="{x:Static local:I18n.BaselineNotRecorded}" />
+                           Text="{x:Static local:I18n.BaselineNotRecorded}" />
                 <Button x:Name="ExportCurrentButton" Grid.Row="7" Margin="0,12,0,0" Padding="14,4"
                         Click="ExportCurrentButton_Click" Content="{x:Static local:I18n.ExportResult}"
                         IsEnabled="False" HorizontalAlignment="Left" />

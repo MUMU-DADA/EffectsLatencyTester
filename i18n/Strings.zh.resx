@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>导出失败：{0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>请先完成一次成功的测试</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>程序已经在运行。</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>主题</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>深色</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>浅色</value></data>
 </root>

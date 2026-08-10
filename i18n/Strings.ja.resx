@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>エクスポートに失敗しました: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>エクスポートするにはテストを成功させてください</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>プログラムはすでに起動しています。</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>テーマ</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>ダーク</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>ライト</value></data>
 </root>

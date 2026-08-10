@@ -20,17 +20,17 @@ public sealed class WaveformViewportChangedEventArgs : EventArgs
 
 public sealed class WaveformPlot : FrameworkElement
 {
-    private static readonly Pen GridPen = new(new SolidColorBrush(Color.FromRgb(42, 50, 58)), 1);
-    private static readonly Pen AxisPen = new(new SolidColorBrush(Color.FromRgb(112, 124, 136)), 1);
-    private static readonly Pen BorderPen = new(new SolidColorBrush(Color.FromRgb(76, 88, 100)), 1);
-    private static readonly Pen CursorPen = new(new SolidColorBrush(Color.FromRgb(255, 255, 255)), 1);
-    private static readonly Pen Time1Pen = new(new SolidColorBrush(Color.FromRgb(255, 209, 102)), 1.25);
-    private static readonly Pen Time2Pen = new(new SolidColorBrush(Color.FromRgb(124, 255, 176)), 1.25);
-    private static readonly Pen OutputPen = new(new SolidColorBrush(Color.FromRgb(255, 66, 110)), 1.5);
-    private static readonly Pen InputPen = new(new SolidColorBrush(Color.FromRgb(0, 229, 255)), 1.5);
-    private static readonly Brush LabelBrush = new SolidColorBrush(Color.FromRgb(224, 232, 240));
-    private static readonly Brush MutedLabelBrush = new SolidColorBrush(Color.FromRgb(158, 174, 188));
-    private static readonly Brush PlotBackground = new SolidColorBrush(Color.FromRgb(5, 8, 12));
+    private Pen gridPen = null!;
+    private Pen axisPen = null!;
+    private Pen borderPen = null!;
+    private Pen cursorPen = null!;
+    private Pen time1Pen = null!;
+    private Pen time2Pen = null!;
+    private Pen outputPen = null!;
+    private Pen inputPen = null!;
+    private Brush labelBrush = null!;
+    private Brush mutedLabelBrush = null!;
+    private Brush plotBackground = null!;
 
     private const double PlotLeft = 52;
     private const double PlotTop = 36;
@@ -61,6 +61,44 @@ public sealed class WaveformPlot : FrameworkElement
         UseLayoutRounding = true;
         ClipToBounds = true;
         IsHitTestVisible = true;
+        ApplyTheme(ThemeManager.CurrentPalette);
+        ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;
+    }
+
+    private void ThemeManager_ThemeChanged(object? sender, ThemePalette palette)
+    {
+        ApplyTheme(palette);
+        InvalidateVisual();
+    }
+
+    private void ApplyTheme(ThemePalette palette)
+    {
+        gridPen = CreatePen(palette.PlotGrid, 1);
+        axisPen = CreatePen(palette.PlotAxis, 1);
+        borderPen = CreatePen(palette.PlotBorder, 1);
+        cursorPen = CreatePen(palette.PlotCursor, 1);
+        time1Pen = CreatePen(palette.PlotTime1, 1.25);
+        time2Pen = CreatePen(palette.PlotTime2, 1.25);
+        outputPen = CreatePen(palette.PlotOutput, 1.5);
+        inputPen = CreatePen(palette.PlotInput, 1.5);
+        labelBrush = CreateBrush(palette.PlotLabel);
+        mutedLabelBrush = CreateBrush(palette.PlotMutedLabel);
+        plotBackground = CreateBrush(palette.PlotBackground);
+    }
+
+    private static Pen CreatePen(Color color, double thickness)
+    {
+        var brush = CreateBrush(color);
+        var pen = new Pen(brush, thickness);
+        pen.Freeze();
+        return pen;
+    }
+
+    private static SolidColorBrush CreateBrush(Color color)
+    {
+        var brush = new SolidColorBrush(color);
+        brush.Freeze();
+        return brush;
     }
 
     public event EventHandler<WaveformViewportChangedEventArgs>? ViewportChanged;
@@ -210,11 +248,11 @@ public sealed class WaveformPlot : FrameworkElement
         base.OnRender(drawingContext);
 
         var bounds = new Rect(RenderSize);
-        drawingContext.DrawRectangle(PlotBackground, null, bounds);
+        drawingContext.DrawRectangle(plotBackground, null, bounds);
 
         if (outputSamples.Length == 0 && inputSamples.Length == 0)
         {
-            DrawText(drawingContext, I18n.WaveformEmpty, new Point(18, 18), 13, LabelBrush);
+            DrawText(drawingContext, I18n.WaveformEmpty, new Point(18, 18), 13, labelBrush);
             return;
         }
 
@@ -236,16 +274,16 @@ public sealed class WaveformPlot : FrameworkElement
             header += $"    {I18n.Format(nameof(I18n.Time2DeltaValue), ToMilliseconds(time2.Value), Math.Abs(ToMilliseconds(time2.Value) - ToMilliseconds(time1!.Value)))}";
         }
 
-        DrawText(drawingContext, header, new Point(PlotLeft, 8), 12, LabelBrush);
+        DrawText(drawingContext, header, new Point(PlotLeft, 8), 12, labelBrush);
 
-        DrawPanel(drawingContext, panels[0], I18n.InputWaveform, inputSamples, InputPen, totalSamples, false);
-        DrawPanel(drawingContext, panels[1], I18n.OutputWaveform, outputSamples, OutputPen, totalSamples, false);
+        DrawPanel(drawingContext, panels[0], I18n.InputWaveform, inputSamples, inputPen, totalSamples, false);
+        DrawPanel(drawingContext, panels[1], I18n.OutputWaveform, outputSamples, outputPen, totalSamples, false);
         DrawPanel(drawingContext, panels[2], I18n.CombinedWaveform, [], null, totalSamples, true);
-        DrawWaveform(drawingContext, panels[2].Data, inputSamples, totalSamples, InputPen);
-        DrawWaveform(drawingContext, panels[2].Data, outputSamples, totalSamples, OutputPen);
+        DrawWaveform(drawingContext, panels[2].Data, inputSamples, totalSamples, inputPen);
+        DrawWaveform(drawingContext, panels[2].Data, outputSamples, totalSamples, outputPen);
 
-        DrawTimeMarker(drawingContext, panels, totalSamples, time1, I18n.Time1Short, Time1Pen);
-        DrawTimeMarker(drawingContext, panels, totalSamples, time2, I18n.Time2Short, Time2Pen);
+        DrawTimeMarker(drawingContext, panels, totalSamples, time1, I18n.Time1Short, time1Pen);
+        DrawTimeMarker(drawingContext, panels, totalSamples, time2, I18n.Time2Short, time2Pen);
         DrawCursor(drawingContext, panels, totalSamples);
     }
 
@@ -258,8 +296,8 @@ public sealed class WaveformPlot : FrameworkElement
         int totalSamples,
         bool showTimeAxis)
     {
-        drawingContext.DrawRectangle(null, BorderPen, panel.Panel);
-        DrawText(drawingContext, title, new Point(panel.Panel.Left + 6, panel.Panel.Top + 3), 11, LabelBrush);
+        drawingContext.DrawRectangle(null, borderPen, panel.Panel);
+        DrawText(drawingContext, title, new Point(panel.Panel.Left + 6, panel.Panel.Top + 3), 11, labelBrush);
         DrawGrid(drawingContext, panel.Data, showTimeAxis, totalSamples);
         if (waveformPen is not null)
         {
@@ -272,9 +310,9 @@ public sealed class WaveformPlot : FrameworkElement
         for (var i = 0; i <= 4; i++)
         {
             var y = data.Top + data.Height * i / 4;
-            drawingContext.DrawLine(i == 2 ? AxisPen : GridPen, new Point(data.Left, y), new Point(data.Right, y));
+            drawingContext.DrawLine(i == 2 ? axisPen : gridPen, new Point(data.Left, y), new Point(data.Right, y));
             var value = 1.0 - i * 0.5;
-            DrawText(drawingContext, value.ToString("0.0", CultureInfo.InvariantCulture), new Point(4, y - 8), 9, MutedLabelBrush);
+            DrawText(drawingContext, value.ToString("0.0", CultureInfo.InvariantCulture), new Point(4, y - 8), 9, mutedLabelBrush);
         }
 
         const int timeTicks = 5;
@@ -283,11 +321,11 @@ public sealed class WaveformPlot : FrameworkElement
         {
             var relative = i / (double)timeTicks;
             var x = data.Left + data.Width * relative;
-            drawingContext.DrawLine(GridPen, new Point(x, data.Top), new Point(x, data.Bottom));
+            drawingContext.DrawLine(gridPen, new Point(x, data.Top), new Point(x, data.Bottom));
             if (showTimeAxis)
             {
                 var seconds = (viewOffset + viewSpan * relative) * totalSeconds;
-                DrawText(drawingContext, I18n.Format(nameof(I18n.TimeSeconds), seconds), new Point(x - 14, data.Bottom + 6), 9, MutedLabelBrush);
+                DrawText(drawingContext, I18n.Format(nameof(I18n.TimeSeconds), seconds), new Point(x - 14, data.Bottom + 6), 9, mutedLabelBrush);
             }
         }
     }
@@ -351,7 +389,7 @@ public sealed class WaveformPlot : FrameworkElement
         var x = cursorX.Value;
         foreach (var panel in panels)
         {
-            drawingContext.DrawLine(CursorPen, new Point(x, panel.Data.Top), new Point(x, panel.Data.Bottom));
+            drawingContext.DrawLine(cursorPen, new Point(x, panel.Data.Top), new Point(x, panel.Data.Bottom));
         }
 
         var normalized = Math.Clamp((x - panels[0].Data.Left) / panels[0].Data.Width, 0, 1);
@@ -366,7 +404,7 @@ public sealed class WaveformPlot : FrameworkElement
             labelX = Math.Max(PlotLeft, x - 230);
         }
 
-        DrawText(drawingContext, label, new Point(labelX, 22), 10, LabelBrush);
+        DrawText(drawingContext, label, new Point(labelX, 22), 10, labelBrush);
     }
 
     private void DrawTimeMarker(

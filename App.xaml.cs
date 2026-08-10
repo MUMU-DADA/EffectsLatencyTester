@@ -12,6 +12,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         I18n.Initialize(e.Args);
+        ThemeManager.Initialize();
         singleInstanceMutex = new Mutex(true, SingleInstanceMutexName, out var createdNew);
         ownsSingleInstanceMutex = createdNew;
         if (!createdNew)

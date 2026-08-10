@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>내보내기 실패: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>내보내기 전에 테스트를 성공적으로 완료하세요</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>프로그램이 이미 실행 중입니다.</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>테마</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>어두운 테마</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>밝은 테마</value></data>
 </root>

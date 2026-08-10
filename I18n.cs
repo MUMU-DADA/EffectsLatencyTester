@@ -10,6 +10,9 @@ public static class I18n
 
     public static string AppTitle => Get(nameof(AppTitle));
     public static string Description => Get(nameof(Description));
+    public static string ThemeLabel => Get(nameof(ThemeLabel));
+    public static string ThemeDark => Get(nameof(ThemeDark));
+    public static string ThemeLight => Get(nameof(ThemeLight));
     public static string WaveformGroup => Get(nameof(WaveformGroup));
     public static string AsioDeviceGroup => Get(nameof(AsioDeviceGroup));
     public static string Refresh => Get(nameof(Refresh));

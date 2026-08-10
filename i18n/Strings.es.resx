@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>La exportación falló: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Completa una prueba correctamente antes de exportar</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>El programa ya está en ejecución.</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>Tema</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Oscuro</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Claro</value></data>
 </root>

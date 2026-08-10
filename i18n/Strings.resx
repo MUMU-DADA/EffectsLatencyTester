@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>Export failed: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Complete a successful test before exporting</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>Another instance is already running.</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>Theme</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Light</value></data>
 </root>

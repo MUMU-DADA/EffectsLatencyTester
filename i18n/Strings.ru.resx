@@ -75,4 +75,7 @@
   <data name="ExportFailed" xml:space="preserve"><value>Ошибка экспорта: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Сначала успешно завершите тест</value></data>
   <data name="AlreadyRunning" xml:space="preserve"><value>Программа уже запущена.</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>Тема</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Тёмная</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Светлая</value></data>
 </root>
