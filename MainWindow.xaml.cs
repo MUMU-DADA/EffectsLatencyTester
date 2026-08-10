@@ -7,6 +7,7 @@ public partial class MainWindow : Window
 {
     private double? baselineMilliseconds;
     private AsioDeviceCapabilities? selectedCapabilities;
+    private bool updatingWaveformScrollBar;
 
     public MainWindow()
     {
@@ -16,7 +17,38 @@ public partial class MainWindow : Window
         BufferSizeComboBox.SelectionChanged += MeasurementSetting_SelectionChanged;
         OutputChannelComboBox.SelectionChanged += MeasurementSetting_SelectionChanged;
         InputChannelComboBox.SelectionChanged += MeasurementSetting_SelectionChanged;
+        WaveformPlot.ViewportChanged += WaveformPlot_ViewportChanged;
+        WaveformScrollBar.ValueChanged += WaveformScrollBar_ValueChanged;
         RefreshDrivers();
+    }
+
+    private void WaveformPlot_ViewportChanged(object? sender, WaveformViewportChangedEventArgs e)
+    {
+        updatingWaveformScrollBar = true;
+        try
+        {
+            WaveformScrollBar.ViewportSize = e.Span;
+            WaveformScrollBar.LargeChange = e.Span;
+            WaveformScrollBar.SmallChange = Math.Max(e.Span / 10, 0.00001);
+            WaveformScrollBar.Value = e.Offset;
+            var needsHorizontalScroll = e.Span < 0.999999;
+            WaveformScrollBar.IsEnabled = needsHorizontalScroll;
+            WaveformScrollBar.Visibility = needsHorizontalScroll
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+        finally
+        {
+            updatingWaveformScrollBar = false;
+        }
+    }
+
+    private void WaveformScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (!updatingWaveformScrollBar)
+        {
+            WaveformPlot.SetHorizontalOffset(e.NewValue);
+        }
     }
 
     private void RefreshButton_Click(object sender, RoutedEventArgs e)
