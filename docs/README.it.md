@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## Schermata
+
+![Schermata dell'applicazione](Snipaste.png)
+
 L’app seleziona prima il driver che può essere aperto, legge frequenza di campionamento, buffer e canali, genera impulsi di prova, rileva l’impulso di ritorno e mostra le forme d’onda di ingresso, uscita e combinate.
 
 ## Collegamento e misurazione

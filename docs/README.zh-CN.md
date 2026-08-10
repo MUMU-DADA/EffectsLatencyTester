@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## 界面截图
+
+![程序运行截图](Snipaste.png)
+
 程序会优先选择第一个可打开的驱动，读取采样率和 buffer，列出输入/输出通道，发送测试脉冲并检测返回脉冲。测试完成后会显示输入、输出和叠加波形及时间轴。
 
 ## 硬件连接
@@ -32,7 +36,13 @@ dotnet run --project .\EffectsLatencyTester.csproj
 
 ## 国际化
 
-界面会在启动时读取系统 UI 语言。目前提供简体中文、繁体中文、日语、韩语、西班牙语、法语、德语、意大利语、巴西葡萄牙语和俄语；没有资源的语言回退到英语。
+界面会在启动时读取系统 UI 语言。目前提供简体中文、繁体中文、日语、韩语、西班牙语、法语、德语、意大利语、巴西葡萄牙语和俄语；没有资源的语言回退到英语。也可以通过启动参数指定本次运行的语言：
+
+```powershell
+dotnet run --project .\EffectsLatencyTester.csproj -- --lang zh-CN
+# 或者已发布程序：
+.\EffectsLatencyTester.exe --language=ja-JP
+```
 
 ## 发布
 

@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## Capture d'écran
+
+![Capture d'écran de l'application](Snipaste.png)
+
 L’application sélectionne d’abord le pilote qui peut être ouvert, lit la fréquence, le tampon et les canaux, génère des impulsions de test, détecte l’impulsion de retour et affiche les formes d’onde d’entrée, de sortie et combinée.
 
 ## Connexion et mesure

@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## 介面截圖
+
+![程式執行畫面](Snipaste.png)
+
 程式會優先選擇第一個可開啟的驅動程式，讀取取樣率與緩衝區，列出輸入/輸出通道，發送測試脈衝並偵測返回脈衝。測試後會顯示輸入、輸出和疊加波形及時間軸。
 
 ## 硬體連接

@@ -74,4 +74,5 @@
   <data name="ExportSuccess" xml:space="preserve"><value>Result exported to: {0}</value></data>
   <data name="ExportFailed" xml:space="preserve"><value>Export failed: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Complete a successful test before exporting</value></data>
+  <data name="AlreadyRunning" xml:space="preserve"><value>Another instance is already running.</value></data>
 </root>

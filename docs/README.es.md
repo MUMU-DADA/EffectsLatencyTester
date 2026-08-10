@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## Captura de pantalla
+
+![Captura de pantalla de la aplicación](Snipaste.png)
+
 La aplicación selecciona primero el controlador que se pueda abrir, lee la frecuencia de muestreo, el búfer y los canales, genera pulsos de prueba, detecta el pulso de retorno y muestra las formas de onda de entrada, salida y combinada.
 
 ## Conexión y medición

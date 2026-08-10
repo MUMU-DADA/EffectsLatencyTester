@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## Screenshot
+
+![Application screenshot](docs/Snipaste.png)
+
 The application can list ASIO drivers, prefer the first driver that can be opened, read supported sample rates and buffer sizes, list named input/output channels, generate test pulses, detect the return pulse, measure a direct-interface baseline, measure the effects loop, and display input/output waveforms with a time axis.
 
 ## Hardware connection
@@ -36,7 +40,15 @@ The buffer list is built from the ASIO driver's minimum, maximum, granularity, a
 
 ## Internationalization
 
-`i18n/Strings.resx` is the English default resource. Localized resources are provided for Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Brazilian Portuguese, and Russian. The application reads the system UI culture at startup; unsupported cultures fall back to English. Add a file named `i18n/Strings.<culture>.resx` to add another locale.
+`i18n/Strings.resx` is the English default resource. Localized resources are provided for Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Brazilian Portuguese, and Russian. The application reads the system UI culture at startup; unsupported cultures fall back to English. You can override the language for one launch with `--lang` or `--language`:
+
+```powershell
+dotnet run --project .\EffectsLatencyTester.csproj -- --lang zh-CN
+# or, after publishing:
+.\EffectsLatencyTester.exe --language=ja-JP
+```
+
+Add a file named `i18n/Strings.<culture>.resx` to add another locale.
 
 ## Publish
 

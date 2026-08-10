@@ -74,4 +74,5 @@
   <data name="ExportSuccess" xml:space="preserve"><value>Результат экспортирован в: {0}</value></data>
   <data name="ExportFailed" xml:space="preserve"><value>Ошибка экспорта: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Сначала успешно завершите тест</value></data>
+  <data name="AlreadyRunning" xml:space="preserve"><value>Программа уже запущена.</value></data>
 </root>

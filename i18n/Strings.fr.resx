@@ -74,4 +74,5 @@
   <data name="ExportSuccess" xml:space="preserve"><value>Résultat exporté vers : {0}</value></data>
   <data name="ExportFailed" xml:space="preserve"><value>Échec de l’exportation : {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>Terminez un test avec succès avant l’exportation</value></data>
+  <data name="AlreadyRunning" xml:space="preserve"><value>Le programme est déjà en cours d’exécution.</value></data>
 </root>

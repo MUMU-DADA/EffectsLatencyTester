@@ -78,13 +78,80 @@ public static class I18n
     public static string ExportSuccess => Get(nameof(ExportSuccess));
     public static string ExportFailed => Get(nameof(ExportFailed));
     public static string ExportNoData => Get(nameof(ExportNoData));
+    public static string AlreadyRunning => Get(nameof(AlreadyRunning));
+
+    public static void Initialize(IReadOnlyList<string> args)
+    {
+        var requestedCulture = GetRequestedCulture(args);
+        if (requestedCulture is null)
+        {
+            UseSystemCulture();
+            return;
+        }
+
+        if (!TrySetCulture(requestedCulture))
+        {
+            SetCulture(CultureInfo.GetCultureInfo("en"));
+        }
+    }
 
     public static void UseSystemCulture()
     {
         if (CultureInfo.CurrentUICulture == CultureInfo.InvariantCulture)
         {
-            CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+            SetCulture(CultureInfo.InstalledUICulture);
         }
+    }
+
+    private static bool TrySetCulture(string cultureName)
+    {
+        try
+        {
+            SetCulture(CultureInfo.GetCultureInfo(cultureName));
+            return true;
+        }
+        catch (CultureNotFoundException)
+        {
+            return false;
+        }
+    }
+
+    private static void SetCulture(CultureInfo culture)
+    {
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+    }
+
+    private static string? GetRequestedCulture(IReadOnlyList<string> args)
+    {
+        for (var index = 0; index < args.Count; index++)
+        {
+            var argument = args[index];
+            if (argument.StartsWith("--lang=", StringComparison.OrdinalIgnoreCase) ||
+                argument.StartsWith("--language=", StringComparison.OrdinalIgnoreCase))
+            {
+                var separator = argument.IndexOf('=');
+                var value = argument[(separator + 1)..].Trim();
+                return value.Length > 0 ? value : null;
+            }
+
+            if (string.Equals(argument, "--lang", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(argument, "--language", StringComparison.OrdinalIgnoreCase))
+            {
+                if (index + 1 < args.Count)
+                {
+                    var value = args[++index].Trim();
+                    if (!value.StartsWith("-", StringComparison.Ordinal) && value.Length > 0)
+                    {
+                        return value;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public static string Get(string key)

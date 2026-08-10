@@ -74,4 +74,5 @@
   <data name="ExportSuccess" xml:space="preserve"><value>结果已导出到: {0}</value></data>
   <data name="ExportFailed" xml:space="preserve"><value>导出失败：{0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>请先完成一次成功的测试</value></data>
+  <data name="AlreadyRunning" xml:space="preserve"><value>程序已经在运行。</value></data>
 </root>

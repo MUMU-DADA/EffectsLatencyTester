@@ -74,4 +74,5 @@
   <data name="ExportSuccess" xml:space="preserve"><value>結果を次へエクスポートしました: {0}</value></data>
   <data name="ExportFailed" xml:space="preserve"><value>エクスポートに失敗しました: {0}</value></data>
   <data name="ExportNoData" xml:space="preserve"><value>エクスポートするにはテストを成功させてください</value></data>
+  <data name="AlreadyRunning" xml:space="preserve"><value>プログラムはすでに起動しています。</value></data>
 </root>

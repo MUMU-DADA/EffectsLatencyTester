@@ -11,6 +11,10 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+## Screenshot
+
+![Application screenshot](Snipaste.png)
+
 Die Anwendung wählt zuerst den ersten Treiber, der geöffnet werden kann, liest Abtastrate, Puffer und Kanäle, erzeugt Testimpulse, erkennt den Rückimpuls und zeigt Eingangs-, Ausgangs- und kombinierte Wellenformen an.
 
 ## Anschluss und Messung
