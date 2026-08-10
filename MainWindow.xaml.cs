@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System.Windows;
 using NAudio.Wave;
 
@@ -9,6 +10,7 @@ public partial class MainWindow : Window
     private AsioDeviceCapabilities? selectedCapabilities;
     private string? pendingDriverName;
     private AsioDeviceCapabilities? pendingDriverCapabilities;
+    private MeasurementExportData? currentExportData;
     private bool updatingWaveformScrollBar;
 
     public MainWindow()
@@ -63,6 +65,7 @@ public partial class MainWindow : Window
         try
         {
             ResetBaseline();
+            ClearCurrentExport();
             ClearDeviceOptions();
             pendingDriverName = null;
             pendingDriverCapabilities = null;
@@ -120,6 +123,7 @@ public partial class MainWindow : Window
         try
         {
             ResetBaseline();
+            ClearCurrentExport();
             selectedCapabilities = TakePendingCapabilities(driver.Name) ?? AsioDeviceInspector.Inspect(driver.Name);
             var capabilities = selectedCapabilities!;
 
@@ -176,13 +180,21 @@ public partial class MainWindow : Window
 
     private async void MeasureBaselineButton_Click(object sender, RoutedEventArgs e)
     {
-        var result = await MeasureAsync(I18n.BaselineStatus);
+        var result = await MeasureAsync(I18n.BaselineStatus, isBaseline: true);
         if (result is not { HasResult: true })
         {
             return;
         }
 
         baselineMilliseconds = result.Value.LatencyMilliseconds;
+        if (currentExportData is not null)
+        {
+            currentExportData = currentExportData with
+            {
+                BaselineMilliseconds = baselineMilliseconds,
+            };
+        }
+
         BaselineTextBlock.Text = I18n.Format(nameof(I18n.BaselineRecorded),
             result.Value.LatencyMilliseconds, result.Value.LatencySamples);
         StatusTextBlock.Text = I18n.BaselineNext;
@@ -196,13 +208,22 @@ public partial class MainWindow : Window
             return;
         }
 
-        var result = await MeasureAsync(I18n.EffectStatus);
+        var result = await MeasureAsync(I18n.EffectStatus, isBaseline: false);
         if (result is not { HasResult: true })
         {
             return;
         }
 
         var pedalboardMilliseconds = result.Value.LatencyMilliseconds - baselineMilliseconds.Value;
+        if (currentExportData is not null)
+        {
+            currentExportData = currentExportData with
+            {
+                BaselineMilliseconds = baselineMilliseconds,
+                EffectsBoardLatencyMilliseconds = pedalboardMilliseconds,
+            };
+        }
+
         StatusTextBlock.Text = pedalboardMilliseconds >= 0
             ? I18n.Format(nameof(I18n.EffectLatency), pedalboardMilliseconds,
                 result.Value.LatencyMilliseconds)
@@ -214,10 +235,11 @@ public partial class MainWindow : Window
         if (e.AddedItems.Count > 0)
         {
             ResetBaseline();
+            ClearCurrentExport();
         }
     }
 
-    private async Task<LatencyResult?> MeasureAsync(string status)
+    private async Task<LatencyResult?> MeasureAsync(string status, bool isBaseline)
     {
         if (DriverComboBox.SelectedItem is not AsioDriverItem driver)
         {
@@ -237,6 +259,15 @@ public partial class MainWindow : Window
 
         MeasureBaselineButton.IsEnabled = false;
         MeasureEffectButton.IsEnabled = false;
+        if (isBaseline)
+        {
+            ClearCurrentExport();
+        }
+        else
+        {
+            ClearEffectsExport();
+        }
+        ExportCurrentButton.IsEnabled = false;
         DriverComboBox.IsEnabled = false;
         StatusTextBlock.Text = status;
 
@@ -259,6 +290,33 @@ public partial class MainWindow : Window
                 return null;
             }
 
+            if (isBaseline)
+            {
+                currentExportData = new MeasurementExportData(
+                    I18n.BaselineButton,
+                    driver.Name,
+                    sampleRate.Value,
+                    bufferSize.Value,
+                    outputChannel.Index,
+                    outputChannel.Name,
+                    inputChannel.Index,
+                    inputChannel.Name,
+                    result.LatencyMilliseconds,
+                    null,
+                    result,
+                    null);
+            }
+            else if (currentExportData is not null)
+            {
+                currentExportData = currentExportData with
+                {
+                    LastTestName = I18n.EffectButton,
+                    EffectsResult = result,
+                };
+            }
+
+            UpdateExportButtonState();
+
             return result;
         }
         catch (Exception ex)
@@ -271,6 +329,7 @@ public partial class MainWindow : Window
             MeasureBaselineButton.IsEnabled = true;
             MeasureEffectButton.IsEnabled = true;
             DriverComboBox.IsEnabled = true;
+            UpdateExportButtonState();
         }
     }
 
@@ -320,6 +379,68 @@ public partial class MainWindow : Window
         BufferSizeComboBox.ItemsSource = null;
         OutputChannelComboBox.ItemsSource = null;
         InputChannelComboBox.ItemsSource = null;
+    }
+
+    private void ClearCurrentExport()
+    {
+        currentExportData = null;
+        ExportCurrentButton.IsEnabled = false;
+    }
+
+    private void ClearEffectsExport()
+    {
+        if (currentExportData is null)
+        {
+            ExportCurrentButton.IsEnabled = false;
+            return;
+        }
+
+        currentExportData = currentExportData with
+        {
+            EffectsBoardLatencyMilliseconds = null,
+            EffectsResult = null,
+        };
+        ExportCurrentButton.IsEnabled = currentExportData.BaselineResult is { HasResult: true };
+    }
+
+    private void UpdateExportButtonState()
+    {
+        ExportCurrentButton.IsEnabled =
+            currentExportData?.BaselineResult is { HasResult: true } ||
+            currentExportData?.EffectsResult is { HasResult: true };
+    }
+
+    private void ExportCurrentButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (currentExportData is null)
+        {
+            StatusTextBlock.Text = I18n.ExportNoData;
+            return;
+        }
+
+        var dialog = new SaveFileDialog
+        {
+            AddExtension = true,
+            DefaultExt = ".zip",
+            FileName = $"effects-latency-{DateTime.Now:yyyyMMdd-HHmmss}.zip",
+            Filter = I18n.ExportDialogFilter,
+            OverwritePrompt = true,
+            Title = I18n.ExportDialogTitle,
+        };
+        if (dialog.ShowDialog(this) != true)
+        {
+            return;
+        }
+
+        try
+        {
+            MeasurementExport.CreateZip(dialog.FileName, currentExportData);
+            StatusTextBlock.Text = I18n.Format(nameof(I18n.ExportSuccess), dialog.FileName);
+        }
+        catch (Exception ex)
+        {
+            StatusTextBlock.Text = I18n.Format(nameof(I18n.ExportFailed), ex.Message);
+        }
     }
 
     private void ResetBaseline()

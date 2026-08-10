@@ -68,4 +68,10 @@
   <data name="OutputFallback" xml:space="preserve"><value>Ausgang {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
   <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+  <data name="ExportResult" xml:space="preserve"><value>Aktuelles Ergebnis exportieren (ZIP)</value></data>
+  <data name="ExportDialogTitle" xml:space="preserve"><value>Exportiertes Ergebnis speichern</value></data>
+  <data name="ExportDialogFilter" xml:space="preserve"><value>ZIP-Archiv (*.zip)|*.zip</value></data>
+  <data name="ExportSuccess" xml:space="preserve"><value>Ergebnis exportiert nach: {0}</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Export fehlgeschlagen: {0}</value></data>
+  <data name="ExportNoData" xml:space="preserve"><value>Führen Sie vor dem Export einen erfolgreichen Test durch</value></data>
 </root>

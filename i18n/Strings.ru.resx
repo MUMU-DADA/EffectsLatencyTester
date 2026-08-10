@@ -68,4 +68,10 @@
   <data name="OutputFallback" xml:space="preserve"><value>Выход {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
   <data name="SampleRateUnit" xml:space="preserve"><value>{0} Гц</value></data>
+  <data name="ExportResult" xml:space="preserve"><value>Экспортировать текущий результат (ZIP)</value></data>
+  <data name="ExportDialogTitle" xml:space="preserve"><value>Сохранить экспортированный результат</value></data>
+  <data name="ExportDialogFilter" xml:space="preserve"><value>ZIP-архив (*.zip)|*.zip</value></data>
+  <data name="ExportSuccess" xml:space="preserve"><value>Результат экспортирован в: {0}</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Ошибка экспорта: {0}</value></data>
+  <data name="ExportNoData" xml:space="preserve"><value>Сначала успешно завершите тест</value></data>
 </root>

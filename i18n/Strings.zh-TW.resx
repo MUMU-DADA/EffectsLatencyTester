@@ -68,4 +68,10 @@
   <data name="OutputFallback" xml:space="preserve"><value>輸出 {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
   <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+  <data name="ExportResult" xml:space="preserve"><value>匯出目前結果（ZIP）</value></data>
+  <data name="ExportDialogTitle" xml:space="preserve"><value>儲存匯出結果</value></data>
+  <data name="ExportDialogFilter" xml:space="preserve"><value>ZIP 壓縮檔 (*.zip)|*.zip</value></data>
+  <data name="ExportSuccess" xml:space="preserve"><value>結果已匯出至: {0}</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>匯出失敗：{0}</value></data>
+  <data name="ExportNoData" xml:space="preserve"><value>請先完成一次成功的測試</value></data>
 </root>

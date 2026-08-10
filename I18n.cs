@@ -72,6 +72,12 @@ public static class I18n
     public static string OutputFallback => Get(nameof(OutputFallback));
     public static string BufferSamples => Get(nameof(BufferSamples));
     public static string SampleRateUnit => Get(nameof(SampleRateUnit));
+    public static string ExportResult => Get(nameof(ExportResult));
+    public static string ExportDialogTitle => Get(nameof(ExportDialogTitle));
+    public static string ExportDialogFilter => Get(nameof(ExportDialogFilter));
+    public static string ExportSuccess => Get(nameof(ExportSuccess));
+    public static string ExportFailed => Get(nameof(ExportFailed));
+    public static string ExportNoData => Get(nameof(ExportNoData));
 
     public static void UseSystemCulture()
     {

@@ -68,4 +68,10 @@
   <data name="OutputFallback" xml:space="preserve"><value>出力 {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
   <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+  <data name="ExportResult" xml:space="preserve"><value>現在の結果をエクスポート（ZIP）</value></data>
+  <data name="ExportDialogTitle" xml:space="preserve"><value>エクスポート結果を保存</value></data>
+  <data name="ExportDialogFilter" xml:space="preserve"><value>ZIP アーカイブ (*.zip)|*.zip</value></data>
+  <data name="ExportSuccess" xml:space="preserve"><value>結果を次へエクスポートしました: {0}</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>エクスポートに失敗しました: {0}</value></data>
+  <data name="ExportNoData" xml:space="preserve"><value>エクスポートするにはテストを成功させてください</value></data>
 </root>

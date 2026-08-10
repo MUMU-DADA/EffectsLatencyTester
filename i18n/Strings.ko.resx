@@ -68,4 +68,10 @@
   <data name="OutputFallback" xml:space="preserve"><value>출력 {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
   <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+  <data name="ExportResult" xml:space="preserve"><value>현재 결과 내보내기 (ZIP)</value></data>
+  <data name="ExportDialogTitle" xml:space="preserve"><value>내보낸 결과 저장</value></data>
+  <data name="ExportDialogFilter" xml:space="preserve"><value>ZIP 아카이브 (*.zip)|*.zip</value></data>
+  <data name="ExportSuccess" xml:space="preserve"><value>결과를 다음 위치로 내보냈습니다: {0}</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>내보내기 실패: {0}</value></data>
+  <data name="ExportNoData" xml:space="preserve"><value>내보내기 전에 테스트를 성공적으로 완료하세요</value></data>
 </root>
