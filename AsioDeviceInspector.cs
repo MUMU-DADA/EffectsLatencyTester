@@ -51,12 +51,12 @@ internal static class AsioDeviceInspector
 
             var inputChannels = capabilities.InputChannelInfos
                 .Select((channel, index) => new AsioChannelChoice(index, string.IsNullOrWhiteSpace(channel.name)
-                    ? $"Input {index + 1}"
+                    ? I18n.Format(nameof(I18n.InputFallback), index + 1)
                     : channel.name.Trim()))
                 .ToArray();
             var outputChannels = capabilities.OutputChannelInfos
                 .Select((channel, index) => new AsioChannelChoice(index, string.IsNullOrWhiteSpace(channel.name)
-                    ? $"Output {index + 1}"
+                    ? I18n.Format(nameof(I18n.OutputFallback), index + 1)
                     : channel.name.Trim()))
                 .ToArray();
 

@@ -69,18 +69,18 @@ public partial class MainWindow : Window
             if (DriverComboBox.Items.Count > 0)
             {
                 DriverComboBox.SelectedIndex = 0;
-                StatusTextBlock.Text = $"已发现 {DriverComboBox.Items.Count} 个 ASIO 驱动";
+                StatusTextBlock.Text = I18n.Format(nameof(I18n.FoundDrivers), DriverComboBox.Items.Count);
             }
             else
             {
                 DetailsTextBox.Clear();
-                StatusTextBlock.Text = "未发现 ASIO 驱动";
+                StatusTextBlock.Text = I18n.NoDrivers;
             }
         }
         catch (Exception ex)
         {
-            DetailsTextBox.Text = ex.ToString();
-            StatusTextBlock.Text = "读取 ASIO 驱动失败";
+            DetailsTextBox.Text = I18n.Format(nameof(I18n.ReadDriversFailedDetails), ex.Message);
+            StatusTextBlock.Text = I18n.ReadDriversFailed;
         }
     }
 
@@ -123,49 +123,56 @@ public partial class MainWindow : Window
             InputChannelComboBox.SelectedIndex = capabilities.InputChannels.Count > 0 ? 0 : -1;
 
             DetailsTextBox.Text =
-                $"名称: {capabilities.Name}{Environment.NewLine}" +
-                $"状态: 驱动可打开{Environment.NewLine}" +
-                $"当前采样率: {capabilities.CurrentSampleRate} Hz{Environment.NewLine}" +
-                $"Buffer: {capabilities.BufferMinSize} - {capabilities.BufferMaxSize} samples" +
-                $"，首选 {capabilities.PreferredBufferSize}{Environment.NewLine}" +
-                $"初始选择: {defaultSampleRate?.Value ?? 0} Hz / {defaultBufferSize?.Value ?? 0} samples{Environment.NewLine}" +
-                $"支持采样率: {string.Join(", ", capabilities.SupportedSampleRates)} Hz{Environment.NewLine}" +
-                $"输出通道数: {capabilities.OutputChannels.Count}{Environment.NewLine}" +
-                $"输入通道数: {capabilities.InputChannels.Count}";
-            StatusTextBlock.Text = "设备参数已加载";
+                string.Join(
+                    Environment.NewLine,
+                    I18n.Format(nameof(I18n.NameLabel), capabilities.Name),
+                    I18n.Format(nameof(I18n.StateLabel), I18n.DriverReady),
+                    I18n.Format(nameof(I18n.CurrentSampleRate), capabilities.CurrentSampleRate),
+                    I18n.Format(nameof(I18n.BufferRange), capabilities.BufferMinSize,
+                        capabilities.BufferMaxSize, capabilities.PreferredBufferSize),
+                    I18n.Format(nameof(I18n.InitialSelection), defaultSampleRate?.Value ?? 0,
+                        defaultBufferSize?.Value ?? 0),
+                    I18n.Format(nameof(I18n.SupportedSampleRates),
+                        string.Join(", ", capabilities.SupportedSampleRates)),
+                    I18n.Format(nameof(I18n.OutputChannelCount), capabilities.OutputChannels.Count),
+                    I18n.Format(nameof(I18n.InputChannelCount), capabilities.InputChannels.Count));
+            StatusTextBlock.Text = I18n.DeviceParametersLoaded;
         }
         catch (Exception ex)
         {
             ClearDeviceOptions();
             var error = DescribeDriverError(ex);
-            DetailsTextBox.Text = $"名称: {driver.Name}{Environment.NewLine}" +
-                                  $"状态: {error}";
+            DetailsTextBox.Text = string.Join(
+                Environment.NewLine,
+                I18n.Format(nameof(I18n.NameLabel), driver.Name),
+                I18n.Format(nameof(I18n.StateLabel), error));
             StatusTextBlock.Text = error.Replace(Environment.NewLine, " ");
         }
     }
 
     private async void MeasureBaselineButton_Click(object sender, RoutedEventArgs e)
     {
-        var result = await MeasureAsync("正在测量声卡直连基准，请确认输出已直接接回输入...");
+        var result = await MeasureAsync(I18n.BaselineStatus);
         if (result is not { HasResult: true })
         {
             return;
         }
 
         baselineMilliseconds = result.Value.LatencyMilliseconds;
-        BaselineTextBlock.Text = $"声卡直连基准：{result.Value.LatencyMilliseconds:F2} ms（{result.Value.LatencySamples} samples）";
-        StatusTextBlock.Text = "直连基准已记录。现在把效果器板接入后，再点击“测量效果器回路”。";
+        BaselineTextBlock.Text = I18n.Format(nameof(I18n.BaselineRecorded),
+            result.Value.LatencyMilliseconds, result.Value.LatencySamples);
+        StatusTextBlock.Text = I18n.BaselineNext;
     }
 
     private async void MeasureEffectButton_Click(object sender, RoutedEventArgs e)
     {
         if (baselineMilliseconds is null)
         {
-            StatusTextBlock.Text = "请先测量声卡直连基准";
+            StatusTextBlock.Text = I18n.PleaseBaseline;
             return;
         }
 
-        var result = await MeasureAsync("正在测量效果器回路，请确认效果器已接线且音量较低...");
+        var result = await MeasureAsync(I18n.EffectStatus);
         if (result is not { HasResult: true })
         {
             return;
@@ -173,8 +180,9 @@ public partial class MainWindow : Window
 
         var pedalboardMilliseconds = result.Value.LatencyMilliseconds - baselineMilliseconds.Value;
         StatusTextBlock.Text = pedalboardMilliseconds >= 0
-            ? $"效果器板延迟：{pedalboardMilliseconds:F2} ms（总往返 {result.Value.LatencyMilliseconds:F2} ms）"
-            : $"效果器回路结果低于基准：{pedalboardMilliseconds:F2} ms，请检查接线或重复测量";
+            ? I18n.Format(nameof(I18n.EffectLatency), pedalboardMilliseconds,
+                result.Value.LatencyMilliseconds)
+            : I18n.Format(nameof(I18n.EffectBelowBaseline), pedalboardMilliseconds);
     }
 
     private void MeasurementSetting_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -189,7 +197,7 @@ public partial class MainWindow : Window
     {
         if (DriverComboBox.SelectedItem is not AsioDriverItem driver)
         {
-            StatusTextBlock.Text = "请先选择 ASIO 驱动";
+            StatusTextBlock.Text = I18n.PleaseChooseDriver;
             return null;
         }
 
@@ -199,7 +207,7 @@ public partial class MainWindow : Window
             OutputChannelComboBox.SelectedItem is not AsioChannelChoice outputChannel ||
             InputChannelComboBox.SelectedItem is not AsioChannelChoice inputChannel)
         {
-            StatusTextBlock.Text = "请先选择有效的采样率、输入通道和输出通道";
+            StatusTextBlock.Text = I18n.PleaseChooseSettings;
             return null;
         }
 
@@ -223,7 +231,7 @@ public partial class MainWindow : Window
                 result.HasResult ? result.LatencyMilliseconds : null);
             if (!result.HasResult)
             {
-                StatusTextBlock.Text = "未检测到返回脉冲，请检查输入输出通道、接线和音量";
+                StatusTextBlock.Text = I18n.NoPulse;
                 return null;
             }
 
@@ -231,7 +239,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            StatusTextBlock.Text = $"测量失败：{DescribeDriverError(ex)}";
+            StatusTextBlock.Text = I18n.Format(nameof(I18n.MeasurementFailed), DescribeDriverError(ex));
             return null;
         }
         finally
@@ -248,10 +256,10 @@ public partial class MainWindow : Window
         if (message.Contains("Can not found a device", StringComparison.OrdinalIgnoreCase) ||
             message.Contains("Please connect the device", StringComparison.OrdinalIgnoreCase))
         {
-            return "驱动已注册，但当前没有找到硬件；请连接并启动设备，或关闭正在占用它的音频程序";
+            return I18n.DriverUnavailable;
         }
 
-        return $"无法打开驱动{Environment.NewLine}{message}";
+        return I18n.Format(nameof(I18n.DriverCannotOpen), Environment.NewLine, message);
     }
 
     private void ClearDeviceOptions()
@@ -266,18 +274,18 @@ public partial class MainWindow : Window
     private void ResetBaseline()
     {
         baselineMilliseconds = null;
-        BaselineTextBlock.Text = "尚未记录声卡直连基准";
+        BaselineTextBlock.Text = I18n.BaselineNotRecorded;
     }
 
     private sealed record AsioDriverItem(string Name);
 
     private sealed record SampleRateItem(int Value)
     {
-        public string DisplayName => $"{Value} Hz";
+        public string DisplayName => I18n.Format(nameof(I18n.SampleRateUnit), Value);
     }
 
     private sealed record BufferSizeItem(int Value)
     {
-        public string DisplayName => $"{Value} samples";
+        public string DisplayName => I18n.Format(nameof(I18n.BufferSamples), Value);
     }
 }

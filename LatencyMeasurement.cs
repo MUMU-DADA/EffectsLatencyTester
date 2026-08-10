@@ -30,7 +30,7 @@ internal static class LatencyMeasurement
     {
         if (!AsioOut.GetDriverNames().Contains(driverName))
         {
-            throw new InvalidOperationException("ASIO 驱动不再可用，请刷新设备列表");
+            throw new InvalidOperationException(I18n.AsioDriverGone);
         }
 
         AsioDriver? basicDriver = null;
@@ -43,14 +43,14 @@ internal static class LatencyMeasurement
             asio = new AsioDriverExt(basicDriver);
             if (!asio.IsSampleRateSupported(sampleRate))
             {
-                throw new InvalidOperationException($"驱动不支持 {sampleRate} Hz");
+                throw new InvalidOperationException(I18n.Format(nameof(I18n.UnsupportedSampleRate), sampleRate));
             }
 
             var capabilities = asio.Capabilities;
             if (bufferSize < capabilities.BufferMinSize || bufferSize > capabilities.BufferMaxSize)
             {
-                throw new InvalidOperationException(
-                    $"驱动不支持 {bufferSize} samples，允许范围为 {capabilities.BufferMinSize} - {capabilities.BufferMaxSize}");
+                throw new InvalidOperationException(I18n.Format(nameof(I18n.BufferUnsupported),
+                    bufferSize, capabilities.BufferMinSize, capabilities.BufferMaxSize));
             }
 
             if (capabilities.SampleRate != sampleRate)
@@ -80,8 +80,8 @@ internal static class LatencyMeasurement
             var actualBufferSize = asio.CreateBuffers(1, inputChannels, useMaxBufferSize: false);
             if (actualBufferSize != bufferSize)
             {
-                throw new InvalidOperationException(
-                    $"驱动实际创建了 {actualBufferSize} samples 的 buffer，而不是请求的 {bufferSize}");
+                throw new InvalidOperationException(I18n.Format(nameof(I18n.BufferActualMismatch),
+                    actualBufferSize, bufferSize));
             }
 
             asio.SetChannelOffset(outputChannel, inputChannel);
@@ -96,7 +96,7 @@ internal static class LatencyMeasurement
 
             if (callback.CallbackError is not null)
             {
-                throw new InvalidOperationException("ASIO 音频回调失败", callback.CallbackError);
+                throw new InvalidOperationException(I18n.AudioCallbackFailed, callback.CallbackError);
             }
 
             return capture.FindLatency(provider.PulsePositions, sampleRate) with
@@ -233,7 +233,7 @@ internal static class LatencyMeasurement
                     Marshal.Copy(int24Samples, 0, outputBuffers[0], int24Samples.Length);
                     break;
                 default:
-                    throw new NotSupportedException($"暂不支持 ASIO 输出格式 {outputSampleType}");
+                    throw new NotSupportedException(I18n.Format(nameof(I18n.UnsupportedOutputFormat), outputSampleType));
             }
         }
 
@@ -362,7 +362,7 @@ internal static class LatencyMeasurement
                 var sampleCount = e.SamplesPerBuffer * e.InputBuffers.Length;
                 if (sampleCount > callbackBuffer.Length)
                 {
-                    callbackError = new InvalidOperationException("ASIO 输入缓冲区大小发生变化");
+                    callbackError = new InvalidOperationException(I18n.InputBufferChanged);
                     return;
                 }
 
@@ -385,7 +385,7 @@ internal static class LatencyMeasurement
         {
             if (callbackError is not null)
             {
-                throw new InvalidOperationException("ASIO 录音回调失败", callbackError);
+                throw new InvalidOperationException(I18n.AudioCallbackFailed, callbackError);
             }
 
             var length = Volatile.Read(ref writtenSamples);

@@ -44,6 +44,20 @@ dotnet run --project .\LatencyTester.csproj
 
 页面中的 buffer 列表来自 ASIO 驱动的最小值、最大值、粒度和首选值。测量时会按页面所选值创建 ASIO 缓冲区；如果驱动拒绝该值，页面会显示错误。设备或其他音频程序占用驱动时，仍需先释放占用后再测量。
 
+## 国际化
+
+界面文本统一放在资源文件中：`Strings.resx` 是英语默认资源，`Strings.zh.resx` 是中文资源。程序启动时读取当前系统 UI 语言；例如 `zh-CN`、`zh-HK` 会回退到 `zh` 资源，未提供的语言则回退到英语。新增语言时，按相同命名规则添加 `Strings.<culture>.resx` 即可。
+
+## 发布
+
+项目包含一个像素风格图标，源文件为 `Assets/LatencyTesterIcon.svg`，构建使用 `Assets/LatencyTesterIcon.ico`。执行下面的脚本即可发布 win-x64 自包含单文件程序：
+
+```powershell
+.\publish.ps1
+```
+
+输出文件为 `artifacts/publish/LatencyTester.exe`，目标电脑不需要安装 .NET 运行时。程序仍需要 Windows 和对应的 ASIO 驱动；ASIO 驱动本身不会被打包进程序。
+
 `NAudio.Asio` 位于 Windows-only 的 ASIO 后端；项目固定为 x64，若只有 32 位 ASIO 驱动，需要把项目的 `PlatformTarget` 改成 `x86`。
 
 列表中的驱动代表系统中已注册的 ASIO 驱动，不代表硬件当前在线。例如 Katana 驱动在设备未连接、设备休眠或被其他音频程序占用时会显示“驱动已注册，但当前没有找到硬件”；这不影响使用其他可打开的 ASIO 设备。

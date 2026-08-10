@@ -214,38 +214,38 @@ public sealed class WaveformPlot : FrameworkElement
 
         if (outputSamples.Length == 0 && inputSamples.Length == 0)
         {
-            DrawText(drawingContext, "完成一次测试后显示输入/输出波形", new Point(18, 18), 13, LabelBrush);
+            DrawText(drawingContext, I18n.WaveformEmpty, new Point(18, 18), 13, LabelBrush);
             return;
         }
 
         var panels = GetPanels();
         var totalSamples = Math.Max(outputSamples.Length, inputSamples.Length);
-        var header = "最近一次测试";
+        var header = I18n.RecentTest;
         if (latencyMilliseconds is not null)
         {
-            header += $"    检测延迟 {latencyMilliseconds.Value:F2} ms";
+            header += $"    {I18n.Format(nameof(I18n.DetectedLatency), latencyMilliseconds.Value)}";
         }
 
         if (time1 is not null)
         {
-            header += $"    T1={ToMilliseconds(time1.Value):F3} ms";
+            header += $"    {I18n.Format(nameof(I18n.Time1Value), ToMilliseconds(time1.Value))}";
         }
 
         if (time2 is not null)
         {
-            header += $"    T2={ToMilliseconds(time2.Value):F3} ms    Δ={Math.Abs(ToMilliseconds(time2.Value) - ToMilliseconds(time1!.Value)):F3} ms";
+            header += $"    {I18n.Format(nameof(I18n.Time2DeltaValue), ToMilliseconds(time2.Value), Math.Abs(ToMilliseconds(time2.Value) - ToMilliseconds(time1!.Value)))}";
         }
 
         DrawText(drawingContext, header, new Point(PlotLeft, 8), 12, LabelBrush);
 
-        DrawPanel(drawingContext, panels[0], "输入波形", inputSamples, InputPen, totalSamples, false);
-        DrawPanel(drawingContext, panels[1], "输出波形", outputSamples, OutputPen, totalSamples, false);
-        DrawPanel(drawingContext, panels[2], "叠加波形（输入 / 输出）", [], null, totalSamples, true);
+        DrawPanel(drawingContext, panels[0], I18n.InputWaveform, inputSamples, InputPen, totalSamples, false);
+        DrawPanel(drawingContext, panels[1], I18n.OutputWaveform, outputSamples, OutputPen, totalSamples, false);
+        DrawPanel(drawingContext, panels[2], I18n.CombinedWaveform, [], null, totalSamples, true);
         DrawWaveform(drawingContext, panels[2].Data, inputSamples, totalSamples, InputPen);
         DrawWaveform(drawingContext, panels[2].Data, outputSamples, totalSamples, OutputPen);
 
-        DrawTimeMarker(drawingContext, panels, totalSamples, time1, "T1", Time1Pen);
-        DrawTimeMarker(drawingContext, panels, totalSamples, time2, "T2", Time2Pen);
+        DrawTimeMarker(drawingContext, panels, totalSamples, time1, I18n.Time1Short, Time1Pen);
+        DrawTimeMarker(drawingContext, panels, totalSamples, time2, I18n.Time2Short, Time2Pen);
         DrawCursor(drawingContext, panels, totalSamples);
     }
 
@@ -287,7 +287,7 @@ public sealed class WaveformPlot : FrameworkElement
             if (showTimeAxis)
             {
                 var seconds = (viewOffset + viewSpan * relative) * totalSeconds;
-                DrawText(drawingContext, $"{seconds:0.00}s", new Point(x - 14, data.Bottom + 6), 9, MutedLabelBrush);
+                DrawText(drawingContext, I18n.Format(nameof(I18n.TimeSeconds), seconds), new Point(x - 14, data.Bottom + 6), 9, MutedLabelBrush);
             }
         }
     }
@@ -359,7 +359,7 @@ public sealed class WaveformPlot : FrameworkElement
         var time = absolutePosition * totalSamples / sampleRate;
         var input = SampleAt(inputSamples, absolutePosition);
         var output = SampleAt(outputSamples, absolutePosition);
-        var label = $"t={time:0.000}s  输入={input:0.000}  输出={output:0.000}";
+        var label = I18n.Format(nameof(I18n.Cursor), time, input, output);
         var labelX = x + 8;
         if (labelX > RenderSize.Width - 230)
         {

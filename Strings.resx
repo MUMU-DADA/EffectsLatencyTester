@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>ASIO Latency Tester</value></data>
+  <data name="Description" xml:space="preserve"><value>Select a local ASIO driver. Measure the direct audio-interface baseline first, then connect the effects board to measure its latency.</value></data>
+  <data name="WaveformGroup" xml:space="preserve"><value>Latest Test Waveforms</value></data>
+  <data name="AsioDeviceGroup" xml:space="preserve"><value>ASIO Device</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="SampleRate" xml:space="preserve"><value>Sample rate:</value></data>
+  <data name="BufferSize" xml:space="preserve"><value>Buffer size:</value></data>
+  <data name="BufferTooltip" xml:space="preserve"><value>Choose the ASIO buffer size for this measurement</value></data>
+  <data name="OutputChannel" xml:space="preserve"><value>Output channel:</value></data>
+  <data name="InputChannel" xml:space="preserve"><value>Input channel:</value></data>
+  <data name="BaselineButton" xml:space="preserve"><value>Measure Direct Interface Baseline</value></data>
+  <data name="EffectButton" xml:space="preserve"><value>Measure Effects Loop</value></data>
+  <data name="BaselineNotRecorded" xml:space="preserve"><value>No direct-interface baseline recorded</value></data>
+  <data name="InitialLoading" xml:space="preserve"><value>Loading ASIO drivers...</value></data>
+  <data name="RecentTest" xml:space="preserve"><value>Latest test</value></data>
+  <data name="DetectedLatency" xml:space="preserve"><value>Detected latency {0:F2} ms</value></data>
+  <data name="Time1Value" xml:space="preserve"><value>T1={0:F3} ms</value></data>
+  <data name="Time2DeltaValue" xml:space="preserve"><value>T2={0:F3} ms    Δ={1:F3} ms</value></data>
+  <data name="Time1Short" xml:space="preserve"><value>T1</value></data>
+  <data name="Time2Short" xml:space="preserve"><value>T2</value></data>
+  <data name="InputWaveform" xml:space="preserve"><value>Input waveform</value></data>
+  <data name="OutputWaveform" xml:space="preserve"><value>Output waveform</value></data>
+  <data name="CombinedWaveform" xml:space="preserve"><value>Combined waveform (input / output)</value></data>
+  <data name="WaveformEmpty" xml:space="preserve"><value>Complete a test to display input/output waveforms</value></data>
+  <data name="Cursor" xml:space="preserve"><value>t={0:0.000}s  Input={1:0.000}  Output={2:0.000}</value></data>
+  <data name="TimeSeconds" xml:space="preserve"><value>{0:0.00}s</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name: {0}</value></data>
+  <data name="StateLabel" xml:space="preserve"><value>Status: {0}</value></data>
+  <data name="DriverReady" xml:space="preserve"><value>Driver can be opened</value></data>
+  <data name="CurrentSampleRate" xml:space="preserve"><value>Current sample rate: {0} Hz</value></data>
+  <data name="BufferRange" xml:space="preserve"><value>Buffer: {0} - {1} samples, preferred {2}</value></data>
+  <data name="InitialSelection" xml:space="preserve"><value>Initial selection: {0} Hz / {1} samples</value></data>
+  <data name="SupportedSampleRates" xml:space="preserve"><value>Supported sample rates: {0} Hz</value></data>
+  <data name="OutputChannelCount" xml:space="preserve"><value>Output channels: {0}</value></data>
+  <data name="InputChannelCount" xml:space="preserve"><value>Input channels: {0}</value></data>
+  <data name="DeviceParametersLoaded" xml:space="preserve"><value>Device parameters loaded</value></data>
+  <data name="FoundDrivers" xml:space="preserve"><value>Found {0} ASIO driver(s)</value></data>
+  <data name="NoDrivers" xml:space="preserve"><value>No ASIO drivers found</value></data>
+  <data name="ReadDriversFailed" xml:space="preserve"><value>Failed to read ASIO drivers</value></data>
+  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>Failed to read ASIO drivers: {0}</value></data>
+  <data name="BaselineStatus" xml:space="preserve"><value>Measuring the direct interface baseline. Confirm the output is directly connected to the input...</value></data>
+  <data name="EffectStatus" xml:space="preserve"><value>Measuring the effects loop. Confirm the effects board is connected and the volume is low...</value></data>
+  <data name="BaselineRecorded" xml:space="preserve"><value>Direct interface baseline: {0:F2} ms ({1} samples)</value></data>
+  <data name="BaselineNext" xml:space="preserve"><value>Direct baseline recorded. Connect the effects board, then measure the effects loop.</value></data>
+  <data name="PleaseBaseline" xml:space="preserve"><value>Please measure the direct interface baseline first</value></data>
+  <data name="EffectLatency" xml:space="preserve"><value>Effects-board latency: {0:F2} ms (total round trip {1:F2} ms)</value></data>
+  <data name="EffectBelowBaseline" xml:space="preserve"><value>The effects-loop result is below the baseline: {0:F2} ms. Check the cabling or measure again</value></data>
+  <data name="PleaseChooseDriver" xml:space="preserve"><value>Please select an ASIO driver</value></data>
+  <data name="PleaseChooseSettings" xml:space="preserve"><value>Please choose a valid sample rate, buffer size, input channel and output channel</value></data>
+  <data name="NoPulse" xml:space="preserve"><value>No return pulse detected. Check the input/output channels, cabling and volume</value></data>
+  <data name="MeasurementFailed" xml:space="preserve"><value>Measurement failed: {0}</value></data>
+  <data name="DriverUnavailable" xml:space="preserve"><value>The driver is registered, but no hardware was found. Connect and start the device, or close another audio program using it.</value></data>
+  <data name="DriverCannotOpen" xml:space="preserve"><value>Cannot open driver{0}{1}</value></data>
+  <data name="AsioDriverGone" xml:space="preserve"><value>The ASIO driver is no longer available. Refresh the device list</value></data>
+  <data name="UnsupportedSampleRate" xml:space="preserve"><value>The driver does not support {0} Hz</value></data>
+  <data name="BufferUnsupported" xml:space="preserve"><value>The driver does not support {0} samples; allowed range is {1} - {2}</value></data>
+  <data name="BufferActualMismatch" xml:space="preserve"><value>The driver created {0} samples instead of the requested {1}</value></data>
+  <data name="AudioCallbackFailed" xml:space="preserve"><value>ASIO audio callback failed</value></data>
+  <data name="InputBufferChanged" xml:space="preserve"><value>The ASIO input buffer size changed</value></data>
+  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>ASIO output format {0} is not supported yet</value></data>
+  <data name="InputFallback" xml:space="preserve"><value>Input {0}</value></data>
+  <data name="OutputFallback" xml:space="preserve"><value>Output {0}</value></data>
+  <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
+  <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+</root>

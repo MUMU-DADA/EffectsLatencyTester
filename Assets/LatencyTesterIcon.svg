@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <title>ASIO Latency Tester</title>
+  <rect width="32" height="32" fill="#0b1118"/>
+  <rect x="2" y="2" width="28" height="28" fill="#16232f"/>
+  <rect x="4" y="4" width="24" height="24" fill="#101a24"/>
+
+  <!-- cyan input pulse -->
+  <rect x="4" y="15" width="3" height="2" fill="#00e5ff"/>
+  <rect x="7" y="12" width="3" height="8" fill="#00e5ff"/>
+  <rect x="10" y="8" width="3" height="16" fill="#00e5ff"/>
+  <rect x="13" y="14" width="3" height="4" fill="#00e5ff"/>
+  <rect x="16" y="16" width="3" height="2" fill="#00e5ff"/>
+
+  <!-- magenta delayed output pulse -->
+  <rect x="17" y="15" width="3" height="2" fill="#ff416c"/>
+  <rect x="20" y="11" width="3" height="10" fill="#ff416c"/>
+  <rect x="23" y="7" width="3" height="18" fill="#ff416c"/>
+  <rect x="26" y="14" width="2" height="4" fill="#ff416c"/>
+
+  <rect x="14" y="13" width="2" height="6" fill="#ffe066"/>
+</svg>
