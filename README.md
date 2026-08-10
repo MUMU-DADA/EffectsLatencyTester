@@ -1,8 +1,20 @@
-# Effects Pedal Latency Tester (.NET prototype)
+# Effects Pedal Latency Tester
 
 [English](README.md) · [简体中文](docs/README.zh-CN.md) · [繁體中文](docs/README.zh-TW.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Português (Brasil)](docs/README.pt-BR.md) · [Русский](docs/README.ru.md)
 
-This Windows WPF/.NET 8 prototype uses `NAudio.Asio` to list and open local ASIO drivers, then measures the complete round-trip latency through an audio interface and an effects pedalboard.
+EffectsLatencyTester is a .NET 8 desktop application for measuring the round-trip latency of an audio interface and guitar effects chain. The UI is built with Avalonia so the application can target Windows, macOS, and Linux. Audio access is isolated behind a common backend interface: Windows currently uses ASIO, while Core Audio and Linux audio backends are reserved for the next platform-specific implementations.
+
+## Architecture
+
+```text
+Avalonia UI
+    ↓
+Common audio interface and latency measurement core
+    ↓
+Windows: ASIO       macOS: Core Audio       Linux: ALSA/PipeWire/JACK
+```
+
+The shared core contains pulse generation, latency detection, waveform data, and CSV/WAV/ZIP export. Platform-specific code is responsible for device enumeration, stream creation, sample format conversion, and buffer callbacks.
 
 ## Run
 
@@ -11,36 +23,34 @@ dotnet restore
 dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
+The project keeps the NuGet package cache and .NET CLI state in `.nuget-packages/` and `.dotnet-home/` when using the project scripts. These directories are ignored by Git.
+
 ## Screenshot
 
 ![Application screenshot](docs/Snipaste.png)
 
-The application can list ASIO drivers, prefer the first driver that can be opened, read supported sample rates and buffer sizes, list named input/output channels, generate test pulses, detect the return pulse, measure a direct-interface baseline, measure the effects loop, and display input/output waveforms with a time axis.
+The application can list available devices, prefer the first device that can be opened, read supported sample rates and buffer sizes, select input/output channels, generate test pulses, detect the return pulse, measure a direct-interface baseline, measure the effects loop, and display input/output waveforms with a time axis.
+
+The waveform view shows separate input, output, and combined panels. The normal mouse wheel pans horizontally, dragging pans horizontally, and `Ctrl` + mouse wheel zooms. Two clicks record T1 and T2 and show their time difference. A waveform is kept even when no return pulse is detected so cabling, channel selection, and volume can be checked.
 
 ## Hardware connection
 
-1. Connect the audio interface ASIO output to the effects board input.
-2. Connect the effects board output back to an audio interface ASIO input.
+1. Connect the audio interface output to the effects board input.
+2. Connect the effects board output back to an audio interface input.
 3. Disable Direct Monitoring to avoid a dry signal interfering with detection.
 4. Start with a low output volume.
 
-## Measurement
-
-The first result is the total round-trip latency of the audio interface output, effects board, and audio interface input. To isolate the effects-board latency, first connect the interface output directly to its input and measure the baseline, then measure the effects loop:
+The effects-board latency is calculated as:
 
 ```text
 Effects-board latency = Effects-loop total latency - Direct-interface baseline latency
 ```
 
-Use the same audio interface for ASIO input and output, keep Direct Monitoring disabled, and use the sample rate, input channel, and output channel selected in the application.
-
-The waveform view shows the latest test as separate input, output, and combined panels. The red curve is the generated output pulse and the cyan curve is the input return. The normal mouse wheel pans horizontally, dragging pans horizontally, and `Ctrl` + mouse wheel zooms. Two clicks record T1 and T2 and show their time difference. A waveform is kept even when no return pulse is detected so that cabling, channel selection, and volume can be checked.
-
-The buffer list is built from the ASIO driver's minimum, maximum, granularity, and preferred values. If the driver rejects the selected buffer, the application reports the error. A driver may also be unavailable when another audio application has opened it.
+Use the same audio interface for input and output, keep Direct Monitoring disabled, and use the sample rate, input channel, and output channel selected in the application.
 
 ## Internationalization
 
-`i18n/Strings.resx` is the English default resource. Localized resources are provided for Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Brazilian Portuguese, and Russian. The application reads the system UI culture at startup; unsupported cultures fall back to English. You can override the language for one launch with `--lang` or `--language`:
+`i18n/Strings.resx` is the English default resource. Localized resources are provided for Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Brazilian Portuguese, and Russian. The application reads the system UI culture at startup; you can override the language for one launch with `--lang` or `--language`:
 
 ```powershell
 dotnet run --project .\EffectsLatencyTester.csproj -- --lang zh-CN
@@ -48,39 +58,35 @@ dotnet run --project .\EffectsLatencyTester.csproj -- --lang zh-CN
 .\EffectsLatencyTester.exe --language=ja-JP
 ```
 
-Add a file named `i18n/Strings.<culture>.resx` to add another locale.
-
 ## Publish
 
-The project includes a pixel-style icon. `Assets/EffectsLatencyTesterIcon.svg` is the editable vector reference and `Assets/EffectsLatencyTesterIcon.ico` is used by the build. Run the following command to publish all Windows architectures as self-contained single-file applications:
+The project includes a pixel-style icon and a cross-platform publishing script. Run the following command to publish all configured targets as self-contained single-file applications:
 
 ```powershell
 .\publish.ps1
 ```
 
-The output files are:
+The output targets are:
 
 ```text
 artifacts/publish/win-x86/EffectsLatencyTester.exe
 artifacts/publish/win-x64/EffectsLatencyTester.exe
 artifacts/publish/win-arm64/EffectsLatencyTester.exe
+artifacts/publish/osx-x64/EffectsLatencyTester
+artifacts/publish/osx-arm64/EffectsLatencyTester
+artifacts/publish/linux-x64/EffectsLatencyTester
+artifacts/publish/linux-arm64/EffectsLatencyTester
 ```
 
-The target computer does not need the .NET runtime, but it still needs Windows and an ASIO driver that matches the application architecture. The ASIO driver itself is not bundled.
+The target computer does not need the .NET runtime. Windows builds require an ASIO driver that matches the application architecture; the ASIO driver itself is not bundled. The macOS and Linux binaries currently contain the Avalonia UI and backend abstraction, but their Core Audio/ALSA/PipeWire/JACK implementations still need platform-specific runtime validation before they can measure audio.
 
-To publish only one architecture:
+To publish one target:
 
 ```powershell
 .\publish.ps1 -Runtime win-x64
-.\publish.ps1 -Runtime win-x86
-.\publish.ps1 -Runtime win-arm64
+.\publish.ps1 -Runtime osx-arm64
+.\publish.ps1 -Runtime linux-x64
 ```
-
-`win-x64` and `win-x86` are verified targets. `win-arm64` can be published but requires an ARM64 ASIO driver. Linux and macOS are not currently supported because the application uses Windows WPF and `NAudio.Asio`; supporting them requires a cross-platform UI and audio backend.
-
-`NAudio.Asio` is a Windows-only ASIO backend. If only a 32-bit ASIO driver is available, publish with `-Runtime win-x86`.
-
-The driver list contains drivers registered in Windows and does not guarantee that the hardware is online. For example, a Katana driver may be registered while the device is disconnected, sleeping, or in use by another audio application; this does not affect other available ASIO devices.
 
 ## License
 
