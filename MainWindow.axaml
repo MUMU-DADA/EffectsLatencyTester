@@ -40,7 +40,7 @@
 
     <Border Grid.Row="2" Grid.Column="2" Padding="12" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
       <Grid RowDefinitions="Auto,*,Auto">
-        <TextBlock x:Name="AsioDeviceGroupTextBlock" Grid.Row="0" Margin="0,0,0,8" FontWeight="SemiBold" Text="ASIO 设备" />
+        <TextBlock x:Name="AudioDeviceGroupTextBlock" Grid.Row="0" Margin="0,0,0,8" FontWeight="SemiBold" Text="Audio Device" />
         <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto,Auto">
           <StackPanel Orientation="Horizontal">
             <ComboBox x:Name="DriverComboBox" Width="470" HorizontalContentAlignment="Left">

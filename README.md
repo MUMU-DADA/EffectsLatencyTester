@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](docs/README.zh-CN.md) · [繁體中文](docs/README.zh-TW.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Português (Brasil)](docs/README.pt-BR.md) · [Русский](docs/README.ru.md)
 
-EffectsLatencyTester is a .NET 8 desktop application for measuring the round-trip latency of an audio interface and guitar effects chain. The UI is built with Avalonia so the application can target Windows, macOS, and Linux. Audio access is isolated behind a common backend interface: Windows currently uses ASIO, while Core Audio and Linux audio backends are reserved for the next platform-specific implementations.
+EffectsLatencyTester is a .NET 8 desktop application for measuring the round-trip latency of an audio interface and guitar effects chain. The UI is built with Avalonia so the application can target Windows, macOS, and Linux. Audio access is isolated behind a common backend interface: Windows uses ASIO, while macOS and Linux use PortAudio with the platform host APIs (Core Audio, ALSA/PipeWire/JACK).
 
 ## Architecture
 
@@ -55,7 +55,7 @@ Use the same audio interface for input and output, keep Direct Monitoring disabl
 ```powershell
 dotnet run --project .\EffectsLatencyTester.csproj -- --lang zh-CN
 # or, after publishing:
-.\EffectsLatencyTester.exe --language=ja-JP
+.\EffectsLatencyTester_win-x64.exe --language=ja-JP
 ```
 
 ## Publish
@@ -69,16 +69,16 @@ The project includes a pixel-style icon and a cross-platform publishing script. 
 The output targets are:
 
 ```text
-artifacts/publish/win-x86/EffectsLatencyTester.exe
-artifacts/publish/win-x64/EffectsLatencyTester.exe
-artifacts/publish/win-arm64/EffectsLatencyTester.exe
-artifacts/publish/osx-x64/EffectsLatencyTester
-artifacts/publish/osx-arm64/EffectsLatencyTester
-artifacts/publish/linux-x64/EffectsLatencyTester
-artifacts/publish/linux-arm64/EffectsLatencyTester
+artifacts/publish/win-x86/EffectsLatencyTester_win-x86.exe
+artifacts/publish/win-x64/EffectsLatencyTester_win-x64.exe
+artifacts/publish/win-arm64/EffectsLatencyTester_win-arm64.exe
+artifacts/publish/osx-x64/EffectsLatencyTester_osx-x64
+artifacts/publish/osx-arm64/EffectsLatencyTester_osx-arm64
+artifacts/publish/linux-x64/EffectsLatencyTester_linux-x64
+artifacts/publish/linux-arm64/EffectsLatencyTester_linux-arm64
 ```
 
-The target computer does not need the .NET runtime. Windows builds require an ASIO driver that matches the application architecture; the ASIO driver itself is not bundled. The macOS and Linux binaries currently contain the Avalonia UI and backend abstraction, but their Core Audio/ALSA/PipeWire/JACK implementations still need platform-specific runtime validation before they can measure audio.
+The target computer does not need the .NET runtime. Windows builds require an ASIO driver that matches the application architecture; the ASIO driver itself is not bundled. The macOS and Linux binaries include the PortAudio native runtime. Their device enumeration and duplex callback paths still need validation on the target operating system with real audio hardware before production measurements.
 
 To publish one target:
 
@@ -87,6 +87,8 @@ To publish one target:
 .\publish.ps1 -Runtime osx-arm64
 .\publish.ps1 -Runtime linux-x64
 ```
+
+Each published file is named `EffectsLatencyTester_<os-arch>`; Windows targets use the `.exe` suffix, while macOS and Linux targets have no extension.
 
 ## License
 

@@ -2,7 +2,7 @@
 
 [English](../README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md)
 
-Prototipo Windows WPF/.NET 8 che usa `NAudio.Asio` per elencare e aprire i driver ASIO locali e misurare la latenza completa di andata e ritorno di un’interfaccia audio e di una pedaliera.
+Applicazione desktop .NET 8 con Avalonia per misurare la latenza completa di andata e ritorno di un’interfaccia audio e di una pedaliera. Windows usa ASIO; macOS usa Core Audio e Linux usa PortAudio con ALSA/PipeWire/JACK.
 
 ## Esecuzione
 
@@ -15,11 +15,11 @@ dotnet run --project .\EffectsLatencyTester.csproj
 
 ![Schermata dell'applicazione](Snipaste.png)
 
-L’app seleziona prima il driver che può essere aperto, legge frequenza di campionamento, buffer e canali, genera impulsi di prova, rileva l’impulso di ritorno e mostra le forme d’onda di ingresso, uscita e combinate.
+L’app seleziona prima il dispositivo audio che può essere aperto, legge frequenza di campionamento, buffer e canali, genera impulsi di prova, rileva l’impulso di ritorno e mostra le forme d’onda di ingresso, uscita e combinate.
 
 ## Collegamento e misurazione
 
-Collega l’uscita ASIO dell’interfaccia all’ingresso della pedaliera e l’uscita della pedaliera a un ingresso ASIO dell’interfaccia. Disattiva il Direct Monitoring e inizia con un volume basso.
+Collega l’uscita audio dell’interfaccia all’ingresso della pedaliera e l’uscita della pedaliera a un ingresso audio dell’interfaccia. Disattiva il Direct Monitoring e inizia con un volume basso.
 
 La prima misura è la latenza totale di andata e ritorno. Per isolare la latenza della pedaliera, misura prima il riferimento collegando direttamente uscita e ingresso dell’interfaccia, quindi misura il loop:
 
@@ -39,4 +39,6 @@ All’avvio l’app legge la lingua dell’interfaccia di sistema. Sono disponib
 .\publish.ps1
 ```
 
-Senza parametri lo script genera file singoli autonomi per `win-x86`, `win-x64` e `win-arm64`. Per una sola architettura usa `-Runtime win-x64`, `-Runtime win-x86` o `-Runtime win-arm64`. .NET non deve essere installato, ma serve il driver ASIO corrispondente. Linux e macOS non sono attualmente supportati perché il progetto usa WPF e `NAudio.Asio`.
+Senza parametri lo script genera file singoli autonomi per `win-x86`, `win-x64`, `win-arm64`, `osx-x64`, `osx-arm64`, `linux-x64` e `linux-arm64`. Per una sola piattaforma usa, ad esempio, `-Runtime win-x64`, `-Runtime osx-arm64` o `-Runtime linux-x64`. .NET non deve essere installato. Windows richiede il driver ASIO corrispondente; macOS e Linux usano le API audio native tramite PortAudio. I percorsi macOS e Linux devono ancora essere verificati con hardware reale sui sistemi di destinazione.
+
+Ogni file pubblicato usa il nome `EffectsLatencyTester_<os-arch>`; i target Windows hanno l’estensione `.exe`, macOS e Linux nessuna estensione.

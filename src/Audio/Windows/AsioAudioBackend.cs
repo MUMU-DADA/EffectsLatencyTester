@@ -1,3 +1,4 @@
+using EffectsLatencyTester;
 using System.Runtime.InteropServices;
 using EffectsLatencyTester.Core;
 using NAudio.Wave;
@@ -41,7 +42,7 @@ public sealed class AsioAudioBackend : IAudioBackend
                     driverName,
                     Name,
                     true,
-                    "Driver can be opened.",
+                    I18n.DriverReady,
                     capabilities));
             }
             catch (Exception exception)

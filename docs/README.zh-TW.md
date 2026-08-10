@@ -2,7 +2,7 @@
 
 [English](../README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md)
 
-這是一個 Windows WPF/.NET 8 原型，使用 `NAudio.Asio` 列出並開啟本機 ASIO 驅動程式，測量聲卡與效果器板的完整往返延遲。
+這是一個使用 Avalonia 建立的 .NET 8 跨平台桌面程式，用於測量聲卡與效果器板的完整往返延遲。Windows 使用 ASIO，macOS 使用 Core Audio，Linux 透過 PortAudio 使用 ALSA/PipeWire/JACK。
 
 ## 執行
 
@@ -15,12 +15,12 @@ dotnet run --project .\EffectsLatencyTester.csproj
 
 ![程式執行畫面](Snipaste.png)
 
-程式會優先選擇第一個可開啟的驅動程式，讀取取樣率與緩衝區，列出輸入/輸出通道，發送測試脈衝並偵測返回脈衝。測試後會顯示輸入、輸出和疊加波形及時間軸。
+程式會優先選擇第一個可開啟的音訊裝置，讀取取樣率與緩衝區，列出輸入/輸出通道，發送測試脈衝並偵測返回脈衝。測試後會顯示輸入、輸出和疊加波形及時間軸。
 
 ## 硬體連接
 
-1. 將聲卡 ASIO 輸出連接到效果器板輸入。
-2. 將效果器板輸出接回聲卡 ASIO 輸入。
+1. 將聲卡 音訊輸出連接到效果器板輸入。
+2. 將效果器板輸出接回聲卡 音訊輸入。
 3. 關閉 Direct Monitoring，避免直通信號干擾偵測。
 4. 從低音量開始測試。
 
@@ -44,12 +44,18 @@ dotnet run --project .\EffectsLatencyTester.csproj
 .\publish.ps1
 ```
 
-預設會產生三個 Windows 自包含單檔程式：
+預設會產生以下自包含單檔程式：
 
 ```text
-artifacts/publish/win-x86/EffectsLatencyTester.exe
-artifacts/publish/win-x64/EffectsLatencyTester.exe
-artifacts/publish/win-arm64/EffectsLatencyTester.exe
+artifacts/publish/win-x86/EffectsLatencyTester_win-x86.exe
+artifacts/publish/win-x64/EffectsLatencyTester_win-x64.exe
+artifacts/publish/win-arm64/EffectsLatencyTester_win-arm64.exe
+artifacts/publish/osx-x64/EffectsLatencyTester_osx-x64
+artifacts/publish/osx-arm64/EffectsLatencyTester_osx-arm64
+artifacts/publish/linux-x64/EffectsLatencyTester_linux-x64
+artifacts/publish/linux-arm64/EffectsLatencyTester_linux-arm64
 ```
 
-也可以使用 `-Runtime win-x64`、`-Runtime win-x86` 或 `-Runtime win-arm64` 只發布一種架構。目標電腦不需要安裝 .NET，但必須安裝相同架構的 ASIO 驅動程式。目前專案使用 WPF 和 `NAudio.Asio`，暫不支援 Linux/macOS。
+也可以使用 `-Runtime win-x64`、`-Runtime osx-arm64` 或 `-Runtime linux-x64` 只發布一個目標。目標電腦不需要安裝 .NET；Windows 需要匹配架構的 ASIO 驅動程式，macOS 和 Linux 透過 PortAudio 使用系統音訊介面。macOS/Linux 路徑仍需要在目標系統和真實聲卡上進一步驗證。
+
+每個發布檔案的名稱格式為 `EffectsLatencyTester_<os-arch>`；Windows 目標使用 `.exe` 副檔名，macOS 和 Linux 不使用副檔名。

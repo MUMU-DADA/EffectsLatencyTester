@@ -18,22 +18,6 @@ public abstract class UnsupportedAudioBackend : IAudioBackend
     public IAudioDuplexStream OpenStream(AudioStreamOptions options)
     {
         throw new PlatformNotSupportedException(
-            $"The {Name} backend for {Platform} has not been enabled in this build yet.");
-    }
-}
-
-public sealed class CoreAudioBackend : UnsupportedAudioBackend
-{
-    public CoreAudioBackend()
-        : base("Core Audio", "macOS")
-    {
-    }
-}
-
-public sealed class LinuxAudioBackend : UnsupportedAudioBackend
-{
-    public LinuxAudioBackend()
-        : base("ALSA/PipeWire/JACK", "Linux")
-    {
+            $"The {Name} backend for {Platform} is not available on this platform.");
     }
 }

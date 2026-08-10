@@ -21,7 +21,6 @@ $projectPath = Join-Path $PSScriptRoot 'EffectsLatencyTester.csproj'
 $iconPath = Join-Path $PSScriptRoot 'Assets\EffectsLatencyTesterIcon.ico'
 $iconGeneratorPath = Join-Path $PSScriptRoot 'tools\GenerateIcon.ps1'
 $projectBaseName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath)
-$temporaryProjectPattern = "${projectBaseName}_*_wpftmp.csproj"
 $hasExplicitOutputPath = -not [string]::IsNullOrWhiteSpace($OutputPath)
 $outputRoot = if ($hasExplicitOutputPath) {
     [System.IO.Path]::GetFullPath($OutputPath)
@@ -37,26 +36,14 @@ else {
     @($Runtime)
 }
 
-function Remove-WpfTemporaryProjects {
-    $temporaryProjects = @(Get-ChildItem -LiteralPath $PSScriptRoot -Filter $temporaryProjectPattern -File -ErrorAction SilentlyContinue)
-    foreach ($temporaryProject in $temporaryProjects) {
-        try {
-            Remove-Item -LiteralPath $temporaryProject.FullName -Force -ErrorAction Stop
-            Write-Host "Removed legacy WPF temporary project: $($temporaryProject.Name)"
-        }
-        catch {
-            Write-Warning "Could not remove WPF temporary project '$($temporaryProject.FullName)': $($_.Exception.Message)"
-        }
-    }
-}
-
 function Get-ExecutableName {
     param([Parameter(Mandatory)][string]$TargetRuntime)
+    $runtimeSuffix = "${projectBaseName}_${TargetRuntime}"
     if ($TargetRuntime.StartsWith('win-', [StringComparison]::OrdinalIgnoreCase)) {
-        return "$projectBaseName.exe"
+        return "$runtimeSuffix.exe"
     }
 
-    return $projectBaseName
+    return $runtimeSuffix
 }
 
 function Publish-Runtime {
@@ -66,6 +53,18 @@ function Publish-Runtime {
     )
 
     New-Item -ItemType Directory -Path $TargetOutputPath -Force | Out-Null
+    $legacyExecutableName = if ($TargetRuntime.StartsWith('win-', [StringComparison]::OrdinalIgnoreCase)) {
+        "$projectBaseName.exe"
+    }
+    else {
+        $projectBaseName
+    }
+    $legacyExecutablePath = Join-Path $TargetOutputPath $legacyExecutableName
+    if ($legacyExecutableName -ne (Get-ExecutableName $TargetRuntime) -and
+        (Test-Path -LiteralPath $legacyExecutablePath)) {
+        Remove-Item -LiteralPath $legacyExecutablePath -Force
+        Write-Host "Removed legacy executable name: $legacyExecutablePath"
+    }
     $publishArguments = @(
         '-nr:false',
         $projectPath,
@@ -82,6 +81,7 @@ function Publish-Runtime {
         '-p:DebugType=None',
         '-p:DebugSymbols=false'
     )
+    $publishArguments += "-p:AssemblyName=${projectBaseName}_${TargetRuntime}"
 
     if ($TargetRuntime.StartsWith('win-', [StringComparison]::OrdinalIgnoreCase)) {
         $platformTarget = switch ($TargetRuntime) {
@@ -111,7 +111,6 @@ function Publish-Runtime {
 }
 
 try {
-    Remove-WpfTemporaryProjects
     if (-not (Test-Path -LiteralPath $iconPath)) {
         & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $iconGeneratorPath
         if ($LASTEXITCODE -ne 0) {
@@ -131,7 +130,6 @@ try {
     }
 }
 finally {
-    Remove-WpfTemporaryProjects
     $env:DOTNET_CLI_HOME = $previousDotnetCliHome
     $env:NUGET_PACKAGES = $previousNugetPackages
 }

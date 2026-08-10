@@ -1,3 +1,4 @@
+using EffectsLatencyTester.Audio.PortAudio;
 using EffectsLatencyTester.Audio.Unsupported;
 using EffectsLatencyTester.Audio.Windows;
 using EffectsLatencyTester.Core;
@@ -15,12 +16,12 @@ public static class AudioBackendFactory
 
         if (OperatingSystem.IsMacOS())
         {
-            return new CoreAudioBackend();
+            return new PortAudioBackend("Core Audio");
         }
 
         if (OperatingSystem.IsLinux())
         {
-            return new LinuxAudioBackend();
+            return new PortAudioBackend("ALSA/PipeWire/JACK");
         }
 
         return new UnsupportedAudioBackendForUnknownPlatform();

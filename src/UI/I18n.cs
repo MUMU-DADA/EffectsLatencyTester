@@ -14,7 +14,8 @@ public static class I18n
     public static string ThemeDark => Get(nameof(ThemeDark));
     public static string ThemeLight => Get(nameof(ThemeLight));
     public static string WaveformGroup => Get(nameof(WaveformGroup));
-    public static string AsioDeviceGroup => Get(nameof(AsioDeviceGroup));
+    public static string AudioDeviceGroup => Get(nameof(AudioDeviceGroup));
+    public static string AsioDeviceGroup => AudioDeviceGroup;
     public static string Refresh => Get(nameof(Refresh));
     public static string SampleRate => Get(nameof(SampleRate));
     public static string BufferSize => Get(nameof(BufferSize));
@@ -40,6 +41,8 @@ public static class I18n
     public static string NameLabel => Get(nameof(NameLabel));
     public static string StateLabel => Get(nameof(StateLabel));
     public static string DriverReady => Get(nameof(DriverReady));
+    public static string NoCompatibleSampleRate => Get(nameof(NoCompatibleSampleRate));
+    public static string NoDuplexAudioDevice => Get(nameof(NoDuplexAudioDevice));
     public static string CurrentSampleRate => Get(nameof(CurrentSampleRate));
     public static string BufferRange => Get(nameof(BufferRange));
     public static string InitialSelection => Get(nameof(InitialSelection));

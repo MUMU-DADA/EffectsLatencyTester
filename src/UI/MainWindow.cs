@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         ThemeLabelTextBlock.Text = I18n.ThemeLabel;
         DescriptionTextBlock.Text = I18n.Description;
         WaveformGroupTextBlock.Text = I18n.WaveformGroup;
-        AsioDeviceGroupTextBlock.Text = I18n.AsioDeviceGroup;
+        AudioDeviceGroupTextBlock.Text = I18n.AudioDeviceGroup;
         RefreshButton.Content = I18n.Refresh;
         SampleRateLabel.Text = I18n.SampleRate;
         BufferSizeLabel.Text = I18n.BufferSize;

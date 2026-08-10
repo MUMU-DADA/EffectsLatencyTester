@@ -8,7 +8,7 @@ namespace EffectsLatencyTester;
 
 public sealed record MeasurementExportData(
     string LastTestName,
-    string DriverName,
+    string AudioDeviceName,
     int SampleRate,
     int BufferSize,
     int OutputChannel,
@@ -61,7 +61,7 @@ public static class MeasurementExport
         var csv = new StringBuilder();
         AppendCsvRow(csv, "Field", "Value");
         AppendCsvRow(csv, "Last test", data.LastTestName);
-        AppendCsvRow(csv, "Driver", data.DriverName);
+        AppendCsvRow(csv, "Audio device", data.AudioDeviceName);
         AppendCsvRow(csv, "Sample rate (Hz)", data.SampleRate.ToString(CultureInfo.InvariantCulture));
         AppendCsvRow(csv, "Buffer size (samples)", data.BufferSize.ToString(CultureInfo.InvariantCulture));
         AppendCsvRow(csv, "Output channel", $"{data.OutputChannel}: {data.OutputChannelName}");
