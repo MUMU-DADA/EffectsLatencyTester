@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using NAudio.Wave;
 using NAudio.Wave.Asio;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 internal readonly record struct LatencyResult(
     bool HasResult,

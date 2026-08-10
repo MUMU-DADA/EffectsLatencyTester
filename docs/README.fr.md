@@ -8,7 +8,7 @@ Prototype Windows WPF/.NET 8 utilisant `NAudio.Asio` pour lister et ouvrir les p
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 L’application sélectionne d’abord le pilote qui peut être ouvert, lit la fréquence, le tampon et les canaux, génère des impulsions de test, détecte l’impulsion de retour et affiche les formes d’onde d’entrée, de sortie et combinée.

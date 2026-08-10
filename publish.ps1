@@ -9,8 +9,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$projectPath = Join-Path $PSScriptRoot 'LatencyTester.csproj'
-$iconPath = Join-Path $PSScriptRoot 'Assets\LatencyTesterIcon.ico'
+$projectPath = Join-Path $PSScriptRoot 'EffectsLatencyTester.csproj'
+$iconPath = Join-Path $PSScriptRoot 'Assets\EffectsLatencyTesterIcon.ico'
 $iconGeneratorPath = Join-Path $PSScriptRoot 'tools\GenerateIcon.ps1'
 $projectBaseName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath)
 $temporaryProjectPattern = "${projectBaseName}_*_wpftmp.csproj"
@@ -93,7 +93,7 @@ function Publish-Runtime {
         throw "dotnet publish failed for $TargetRuntime with exit code $LASTEXITCODE."
     }
 
-    $executablePath = Join-Path $TargetOutputPath 'LatencyTester.exe'
+    $executablePath = Join-Path $TargetOutputPath 'EffectsLatencyTester.exe'
     if (-not (Test-Path -LiteralPath $executablePath)) {
         throw "Publish completed but the expected executable was not found: $executablePath"
     }

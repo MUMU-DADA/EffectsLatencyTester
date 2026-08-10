@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Text;
 using NAudio.Wave;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 internal sealed record MeasurementExportData(
     string LastTestName,

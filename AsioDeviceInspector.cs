@@ -1,6 +1,6 @@
 using NAudio.Wave.Asio;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 internal sealed record AsioChannelChoice(int Index, string Name)
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 public sealed class WaveformViewportChangedEventArgs : EventArgs
 {

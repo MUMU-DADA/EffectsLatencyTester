@@ -8,7 +8,7 @@
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 程序会优先选择第一个可打开的驱动，读取采样率和 buffer，列出输入/输出通道，发送测试脉冲并检测返回脉冲。测试完成后会显示输入、输出和叠加波形及时间轴。
@@ -43,9 +43,9 @@ dotnet run --project .\LatencyTester.csproj
 默认生成三个 Windows 自包含单文件程序：
 
 ```text
-artifacts/publish/win-x86/LatencyTester.exe
-artifacts/publish/win-x64/LatencyTester.exe
-artifacts/publish/win-arm64/LatencyTester.exe
+artifacts/publish/win-x86/EffectsLatencyTester.exe
+artifacts/publish/win-x64/EffectsLatencyTester.exe
+artifacts/publish/win-arm64/EffectsLatencyTester.exe
 ```
 
 也可以使用 `-Runtime win-x64`、`-Runtime win-x86` 或 `-Runtime win-arm64` 只发布一种架构。目标电脑无需安装 .NET，但必须安装匹配架构的 ASIO 驱动。当前项目使用 WPF 和 `NAudio.Asio`，暂不支持 Linux/macOS。

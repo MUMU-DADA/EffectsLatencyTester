@@ -8,7 +8,7 @@
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 프로그램은 열 수 있는 첫 번째 드라이버를 우선 선택하고 샘플레이트, 버퍼 크기, 입출력 채널을 읽습니다. 테스트 펄스를 출력하고 반환 펄스를 감지한 뒤 입력·출력·결합 파형과 시간축을 표시합니다.

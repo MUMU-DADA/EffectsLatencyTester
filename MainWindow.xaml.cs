@@ -2,7 +2,7 @@ using Microsoft.Win32;
 using System.Windows;
 using NAudio.Wave;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 public partial class MainWindow : Window
 {

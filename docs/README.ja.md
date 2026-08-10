@@ -8,7 +8,7 @@ Windows WPF/.NET 8 のプロトタイプです。`NAudio.Asio` を使ってロ�
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 起動時には開ける最初のドライバーを優先し、サンプルレート、バッファー、入出力チャンネルを読み込みます。テストパルスを出力して戻りパルスを検出し、入力・出力・合成波形と時間軸を表示します。

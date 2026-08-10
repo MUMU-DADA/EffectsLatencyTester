@@ -1,12 +1,12 @@
 using System.Globalization;
 using System.Resources;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 public static class I18n
 {
     private static readonly ResourceManager ResourceManager =
-        new("LatencyTester.Strings", typeof(I18n).Assembly);
+        new("EffectsLatencyTester.Strings", typeof(I18n).Assembly);
 
     public static string AppTitle => Get(nameof(AppTitle));
     public static string Description => Get(nameof(Description));

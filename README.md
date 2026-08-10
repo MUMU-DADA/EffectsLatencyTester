@@ -8,7 +8,7 @@ This Windows WPF/.NET 8 prototype uses `NAudio.Asio` to list and open local ASIO
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 The application can list ASIO drivers, prefer the first driver that can be opened, read supported sample rates and buffer sizes, list named input/output channels, generate test pulses, detect the return pulse, measure a direct-interface baseline, measure the effects loop, and display input/output waveforms with a time axis.
@@ -40,7 +40,7 @@ The buffer list is built from the ASIO driver's minimum, maximum, granularity, a
 
 ## Publish
 
-The project includes a pixel-style icon. `Assets/LatencyTesterIcon.svg` is the editable vector reference and `Assets/LatencyTesterIcon.ico` is used by the build. Run the following command to publish all Windows architectures as self-contained single-file applications:
+The project includes a pixel-style icon. `Assets/EffectsLatencyTesterIcon.svg` is the editable vector reference and `Assets/EffectsLatencyTesterIcon.ico` is used by the build. Run the following command to publish all Windows architectures as self-contained single-file applications:
 
 ```powershell
 .\publish.ps1
@@ -49,9 +49,9 @@ The project includes a pixel-style icon. `Assets/LatencyTesterIcon.svg` is the e
 The output files are:
 
 ```text
-artifacts/publish/win-x86/LatencyTester.exe
-artifacts/publish/win-x64/LatencyTester.exe
-artifacts/publish/win-arm64/LatencyTester.exe
+artifacts/publish/win-x86/EffectsLatencyTester.exe
+artifacts/publish/win-x64/EffectsLatencyTester.exe
+artifacts/publish/win-arm64/EffectsLatencyTester.exe
 ```
 
 The target computer does not need the .NET runtime, but it still needs Windows and an ASIO driver that matches the application architecture. The ASIO driver itself is not bundled.

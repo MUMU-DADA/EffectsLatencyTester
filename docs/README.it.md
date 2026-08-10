@@ -8,7 +8,7 @@ Prototipo Windows WPF/.NET 8 che usa `NAudio.Asio` per elencare e aprire i drive
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 L’app seleziona prima il driver che può essere aperto, legge frequenza di campionamento, buffer e canali, genera impulsi di prova, rileva l’impulso di ritorno e mostra le forme d’onda di ingresso, uscita e combinate.

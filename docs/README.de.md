@@ -8,7 +8,7 @@ Windows-WPF/.NET-8-Prototyp mit `NAudio.Asio`, der lokale ASIO-Treiber auflistet
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 Die Anwendung wählt zuerst den ersten Treiber, der geöffnet werden kann, liest Abtastrate, Puffer und Kanäle, erzeugt Testimpulse, erkennt den Rückimpuls und zeigt Eingangs-, Ausgangs- und kombinierte Wellenformen an.

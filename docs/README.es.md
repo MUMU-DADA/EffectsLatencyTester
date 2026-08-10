@@ -8,7 +8,7 @@ Prototipo Windows WPF/.NET 8 que usa `NAudio.Asio` para listar y abrir controlad
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 La aplicación selecciona primero el controlador que se pueda abrir, lee la frecuencia de muestreo, el búfer y los canales, genera pulsos de prueba, detecta el pulso de retorno y muestra las formas de onda de entrada, salida y combinada.

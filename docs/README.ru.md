@@ -8,7 +8,7 @@
 
 ```powershell
 dotnet restore
-dotnet run --project .\LatencyTester.csproj
+dotnet run --project .\EffectsLatencyTester.csproj
 ```
 
 Программа сначала выбирает первый доступный драйвер, считывает частоту дискретизации, буфер и каналы, генерирует тестовые импульсы, обнаруживает возвратный импульс и показывает входную, выходную и объединённую осциллограммы.

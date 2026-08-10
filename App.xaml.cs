@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace LatencyTester;
+namespace EffectsLatencyTester;
 
 public partial class App : Application
 {

@@ -1,5 +1,5 @@
 param(
-    [string]$OutputPath = (Join-Path $PSScriptRoot '..\Assets\LatencyTesterIcon.ico')
+    [string]$OutputPath = (Join-Path $PSScriptRoot '..\Assets\EffectsLatencyTesterIcon.ico')
 )
 
 $ErrorActionPreference = 'Stop'
