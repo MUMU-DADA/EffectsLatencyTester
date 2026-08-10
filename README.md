@@ -50,14 +50,32 @@ dotnet run --project .\LatencyTester.csproj
 
 ## 发布
 
-项目包含一个像素风格图标，源文件为 `Assets/LatencyTesterIcon.svg`，构建使用 `Assets/LatencyTesterIcon.ico`。执行下面的脚本即可发布 win-x64 自包含单文件程序：
+项目包含一个像素风格图标，源文件为 `Assets/LatencyTesterIcon.svg`，构建使用 `Assets/LatencyTesterIcon.ico`。执行下面的脚本会默认发布全部 Windows 架构的自包含单文件程序：
 
 ```powershell
 .\publish.ps1
 ```
 
-输出文件为 `artifacts/publish/LatencyTester.exe`，目标电脑不需要安装 .NET 运行时。程序仍需要 Windows 和对应的 ASIO 驱动；ASIO 驱动本身不会被打包进程序。
+输出文件为 `artifacts/publish/win-x86/LatencyTester.exe`、`artifacts/publish/win-x64/LatencyTester.exe` 和 `artifacts/publish/win-arm64/LatencyTester.exe`，目标电脑不需要安装 .NET 运行时。程序仍需要 Windows 和对应的 ASIO 驱动；ASIO 驱动本身不会被打包进程序。
 
-`NAudio.Asio` 位于 Windows-only 的 ASIO 后端；项目固定为 x64，若只有 32 位 ASIO 驱动，需要把项目的 `PlatformTarget` 改成 `x86`。
+发布脚本还支持其他 Windows 架构：
+
+```powershell
+.\publish.ps1 -Runtime win-x86
+.\publish.ps1 -Runtime win-arm64
+```
+
+不指定 `-Runtime` 时默认发布全部 Windows 架构；如果只需要某一种架构，可以传入 `-Runtime win-x64` 等参数。ASIO 驱动必须与程序架构一致：x86 程序需要 x86 驱动，x64 程序需要 x64 驱动，ARM64 程序需要 ARM64 驱动。当前项目仍是 WPF + `NAudio.Asio`，所以不能直接发布到 Linux 或 macOS；这些系统需要替换为跨平台 UI 和音频后端。
+
+当前发布目标：
+
+| 目标 | 状态 |
+| --- | --- |
+| `win-x64` | 支持并已验证 |
+| `win-x86` | 支持并已验证 |
+| `win-arm64` | 可发布；需要 ARM64 ASIO 驱动 |
+| Linux / macOS | 当前不支持 |
+
+`NAudio.Asio` 位于 Windows-only 的 ASIO 后端；如果只有 32 位 ASIO 驱动，请使用 `-Runtime win-x86` 发布。
 
 列表中的驱动代表系统中已注册的 ASIO 驱动，不代表硬件当前在线。例如 Katana 驱动在设备未连接、设备休眠或被其他音频程序占用时会显示“驱动已注册，但当前没有找到硬件”；这不影响使用其他可打开的 ASIO 设备。
