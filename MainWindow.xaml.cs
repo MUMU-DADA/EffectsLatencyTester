@@ -7,6 +7,8 @@ public partial class MainWindow : Window
 {
     private double? baselineMilliseconds;
     private AsioDeviceCapabilities? selectedCapabilities;
+    private string? pendingDriverName;
+    private AsioDeviceCapabilities? pendingDriverCapabilities;
     private bool updatingWaveformScrollBar;
 
     public MainWindow()
@@ -62,13 +64,35 @@ public partial class MainWindow : Window
         {
             ResetBaseline();
             ClearDeviceOptions();
-            DriverComboBox.ItemsSource = AsioOut.GetDriverNames()
+            pendingDriverName = null;
+            pendingDriverCapabilities = null;
+            var driverItems = AsioOut.GetDriverNames()
                 .Select(name => new AsioDriverItem(name))
                 .ToList();
+            DriverComboBox.ItemsSource = driverItems;
 
             if (DriverComboBox.Items.Count > 0)
             {
-                DriverComboBox.SelectedIndex = 0;
+                var preferredDriver = driverItems
+                    .Select((driver, index) => new
+                    {
+                        Driver = driver,
+                        Index = index,
+                        Capabilities = TryInspectDriver(driver.Name),
+                    })
+                    .FirstOrDefault(candidate => candidate.Capabilities is not null);
+
+                if (preferredDriver is not null)
+                {
+                    pendingDriverName = preferredDriver.Driver.Name;
+                    pendingDriverCapabilities = preferredDriver.Capabilities;
+                    DriverComboBox.SelectedIndex = preferredDriver.Index;
+                }
+                else
+                {
+                    DriverComboBox.SelectedIndex = 0;
+                }
+
                 StatusTextBlock.Text = I18n.Format(nameof(I18n.FoundDrivers), DriverComboBox.Items.Count);
             }
             else
@@ -96,7 +120,7 @@ public partial class MainWindow : Window
         try
         {
             ResetBaseline();
-            selectedCapabilities = AsioDeviceInspector.Inspect(driver.Name);
+            selectedCapabilities = TakePendingCapabilities(driver.Name) ?? AsioDeviceInspector.Inspect(driver.Name);
             var capabilities = selectedCapabilities!;
 
             var sampleRateItems = capabilities.SupportedSampleRates
@@ -260,6 +284,33 @@ public partial class MainWindow : Window
         }
 
         return I18n.Format(nameof(I18n.DriverCannotOpen), Environment.NewLine, message);
+    }
+
+    private static AsioDeviceCapabilities? TryInspectDriver(string driverName)
+    {
+        try
+        {
+            return AsioDeviceInspector.Inspect(driverName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private AsioDeviceCapabilities? TakePendingCapabilities(string driverName)
+    {
+        if (!string.Equals(pendingDriverName, driverName, StringComparison.Ordinal))
+        {
+            pendingDriverName = null;
+            pendingDriverCapabilities = null;
+            return null;
+        }
+
+        var capabilities = pendingDriverCapabilities;
+        pendingDriverName = null;
+        pendingDriverCapabilities = null;
+        return capabilities;
     }
 
     private void ClearDeviceOptions()

@@ -4,7 +4,7 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="AppTitle" xml:space="preserve"><value>ASIO Latency Tester</value></data>
+  <data name="AppTitle" xml:space="preserve"><value>Effects Pedal Latency Tester</value></data>
   <data name="Description" xml:space="preserve"><value>Select a local ASIO driver. Measure the direct audio-interface baseline first, then connect the effects board to measure its latency.</value></data>
   <data name="WaveformGroup" xml:space="preserve"><value>Latest Test Waveforms</value></data>
   <data name="AsioDeviceGroup" xml:space="preserve"><value>ASIO Device</value></data>

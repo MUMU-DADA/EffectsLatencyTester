@@ -1,4 +1,4 @@
-# ASIO 延迟检测（.NET 原型）
+# 效果器延迟检测（.NET 原型）
 
 这是一个 Windows WPF/.NET 8 原型，使用 `NAudio.Asio` 列出、打开本机 ASIO 驱动，并通过声卡的输出/输入回路测量总往返延迟。
 
