@@ -81,3 +81,7 @@ To publish only one architecture:
 `NAudio.Asio` is a Windows-only ASIO backend. If only a 32-bit ASIO driver is available, publish with `-Runtime win-x86`.
 
 The driver list contains drivers registered in Windows and does not guarantee that the hardware is online. For example, a Katana driver may be registered while the device is disconnected, sleeping, or in use by another audio application; this does not affect other available ASIO devices.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
