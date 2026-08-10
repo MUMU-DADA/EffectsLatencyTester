@@ -1,4 +1,3 @@
-using EffectsLatencyTester;
 using System.Runtime.InteropServices;
 using EffectsLatencyTester.Core;
 using NAudio.Wave;
@@ -42,7 +41,8 @@ public sealed class AsioAudioBackend : IAudioBackend
                     driverName,
                     Name,
                     true,
-                    I18n.DriverReady,
+                    AudioDeviceStatus.Ready,
+                    null,
                     capabilities));
             }
             catch (Exception exception)
@@ -52,6 +52,7 @@ public sealed class AsioAudioBackend : IAudioBackend
                     driverName,
                     Name,
                     false,
+                    AudioDeviceStatus.Unavailable,
                     exception.Message,
                     null));
             }
@@ -91,12 +92,14 @@ public sealed class AsioAudioBackend : IAudioBackend
             var inputChannels = capabilities.InputChannelInfos
                 .Select((channel, index) => new AudioChannelInfo(
                     index,
-                    string.IsNullOrWhiteSpace(channel.name) ? $"Input {index + 1}" : channel.name.Trim()))
+                    string.IsNullOrWhiteSpace(channel.name) ? null : channel.name.Trim(),
+                    AudioChannelDirection.Input))
                 .ToArray();
             var outputChannels = capabilities.OutputChannelInfos
                 .Select((channel, index) => new AudioChannelInfo(
                     index,
-                    string.IsNullOrWhiteSpace(channel.name) ? $"Output {index + 1}" : channel.name.Trim()))
+                    string.IsNullOrWhiteSpace(channel.name) ? null : channel.name.Trim(),
+                    AudioChannelDirection.Output))
                 .ToArray();
 
             return new AudioDeviceCapabilities(

@@ -1,4 +1,5 @@
 using Avalonia;
+using EffectsLatencyTester;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
@@ -6,7 +7,7 @@ using Avalonia.Platform.Storage;
 using EffectsLatencyTester.Audio;
 using EffectsLatencyTester.Core;
 
-namespace EffectsLatencyTester;
+namespace EffectsLatencyTester.UI;
 
 public partial class MainWindow : Window
 {
@@ -146,11 +147,19 @@ public partial class MainWindow : Window
         if (!device.IsAvailable || device.Capabilities is null)
         {
             ClearDeviceOptions();
-            DetailsTextBox.Text = string.Join(
-                Environment.NewLine,
+            var statusText = I18n.GetDeviceStatus(device.Status);
+            var deviceDetails = new List<string>
+            {
                 I18n.Format(nameof(I18n.NameLabel), device.Name),
-                I18n.Format(nameof(I18n.StateLabel), device.Status));
-            StatusTextBlock.Text = device.Status;
+                I18n.Format(nameof(I18n.StateLabel), statusText),
+            };
+            if (!string.IsNullOrWhiteSpace(device.StatusDetails))
+            {
+                deviceDetails.Add(device.StatusDetails);
+            }
+
+            DetailsTextBox.Text = string.Join(Environment.NewLine, deviceDetails);
+            StatusTextBlock.Text = statusText;
             return;
         }
 
@@ -173,17 +182,23 @@ public partial class MainWindow : Window
                 .FirstOrDefault(size => size.Value == capabilities.PreferredBufferSize)
                 ?? bufferSizeItems.FirstOrDefault();
 
-            OutputChannelComboBox.ItemsSource = capabilities.OutputChannels;
-            InputChannelComboBox.ItemsSource = capabilities.InputChannels;
-            OutputChannelComboBox.SelectedIndex = capabilities.OutputChannels.Count > 0 ? 0 : -1;
-            InputChannelComboBox.SelectedIndex = capabilities.InputChannels.Count > 0 ? 0 : -1;
+            var outputChannelItems = capabilities.OutputChannels
+                .Select(channel => new ChannelOption(channel))
+                .ToList();
+            var inputChannelItems = capabilities.InputChannels
+                .Select(channel => new ChannelOption(channel))
+                .ToList();
+            OutputChannelComboBox.ItemsSource = outputChannelItems;
+            InputChannelComboBox.ItemsSource = inputChannelItems;
+            OutputChannelComboBox.SelectedIndex = outputChannelItems.Count > 0 ? 0 : -1;
+            InputChannelComboBox.SelectedIndex = inputChannelItems.Count > 0 ? 0 : -1;
 
             var defaultSampleRate = SampleRateComboBox.SelectedItem as SampleRateItem;
             var defaultBufferSize = BufferSizeComboBox.SelectedItem as BufferSizeItem;
             DetailsTextBox.Text = string.Join(
                 Environment.NewLine,
                 I18n.Format(nameof(I18n.NameLabel), capabilities.Name),
-                I18n.Format(nameof(I18n.StateLabel), I18n.DriverReady),
+                I18n.Format(nameof(I18n.StateLabel), I18n.GetDeviceStatus(device.Status)),
                 I18n.Format(nameof(I18n.CurrentSampleRate), capabilities.CurrentSampleRate),
                 I18n.Format(nameof(I18n.BufferRange), capabilities.BufferMinSize,
                     capabilities.BufferMaxSize, capabilities.PreferredBufferSize),
@@ -271,13 +286,15 @@ public partial class MainWindow : Window
 
         if (SampleRateComboBox.SelectedItem is not SampleRateItem sampleRate ||
             BufferSizeComboBox.SelectedItem is not BufferSizeItem bufferSize ||
-            OutputChannelComboBox.SelectedItem is not AudioChannelInfo outputChannel ||
-            InputChannelComboBox.SelectedItem is not AudioChannelInfo inputChannel)
+            OutputChannelComboBox.SelectedItem is not ChannelOption outputChannelOption ||
+            InputChannelComboBox.SelectedItem is not ChannelOption inputChannelOption)
         {
             StatusTextBlock.Text = I18n.PleaseChooseSettings;
             return null;
         }
 
+        var outputChannel = outputChannelOption.Channel;
+        var inputChannel = inputChannelOption.Channel;
         MeasureBaselineButton.IsEnabled = false;
         MeasureEffectButton.IsEnabled = false;
         DriverComboBox.IsEnabled = false;
@@ -320,9 +337,9 @@ public partial class MainWindow : Window
                     sampleRate.Value,
                     bufferSize.Value,
                     outputChannel.Index,
-                    outputChannel.Name,
+                    outputChannelOption.Name,
                     inputChannel.Index,
-                    inputChannel.Name,
+                    inputChannelOption.Name,
                     result.LatencyMilliseconds,
                     null,
                     result,
@@ -440,5 +457,12 @@ public partial class MainWindow : Window
     private sealed record BufferSizeItem(int Value)
     {
         public string DisplayName => I18n.Format(nameof(I18n.BufferSamples), Value);
+    }
+
+    private sealed record ChannelOption(AudioChannelInfo Channel)
+    {
+        public int Index => Channel.Index;
+        public string Name => I18n.GetChannelName(Channel);
+        public string DisplayName => $"{Index}: {Name}";
     }
 }

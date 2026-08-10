@@ -1,10 +1,15 @@
 namespace EffectsLatencyTester.Core;
 
-public sealed record AudioChannelInfo(int Index, string Name)
+public enum AudioChannelDirection
 {
-    public string DisplayName => $"{Index}: {Name}";
+    Input,
+    Output,
 }
 
+public sealed record AudioChannelInfo(
+    int Index,
+    string? Name,
+    AudioChannelDirection Direction);
 public sealed record AudioDeviceCapabilities(
     string Name,
     int CurrentSampleRate,
@@ -17,17 +22,25 @@ public sealed record AudioDeviceCapabilities(
     IReadOnlyList<AudioChannelInfo> InputChannels,
     IReadOnlyList<AudioChannelInfo> OutputChannels);
 
+public enum AudioDeviceStatus
+{
+    Ready,
+    Unavailable,
+    NoCompatibleSampleRate,
+    NoDuplexAudioDevice,
+}
+
 public sealed record AudioDeviceInfo(
     string Id,
     string Name,
     string BackendName,
     bool IsAvailable,
-    string Status,
+    AudioDeviceStatus Status,
+    string? StatusDetails,
     AudioDeviceCapabilities? Capabilities)
 {
     public string DisplayName => Name;
 }
-
 public sealed record AudioStreamOptions(
     string DeviceId,
     int SampleRate,

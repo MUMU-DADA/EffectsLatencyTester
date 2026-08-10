@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace EffectsLatencyTester;
+namespace EffectsLatencyTester.UI;
 
 public partial class App : Application
 {

@@ -1,4 +1,5 @@
 using Avalonia;
+using EffectsLatencyTester.UI;
 
 namespace EffectsLatencyTester;
 

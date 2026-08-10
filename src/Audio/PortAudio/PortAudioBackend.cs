@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 using EffectsLatencyTester.Core;
-using EffectsLatencyTester;
 using PortAudioSharp;
 using PaStream = PortAudioSharp.Stream;
 using Pa = PortAudioSharp.PortAudio;
@@ -48,10 +47,10 @@ public sealed class PortAudioBackend : IAudioBackend
                 var isDuplex = info.maxInputChannels > 0 && info.maxOutputChannels > 0;
                 var isAvailable = isDuplex && capabilities.SupportedSampleRates.Count > 0;
                 var status = isAvailable
-                    ? I18n.DriverReady
+                    ? AudioDeviceStatus.Ready
                     : isDuplex
-                        ? I18n.NoCompatibleSampleRate
-                        : I18n.NoDuplexAudioDevice;
+                        ? AudioDeviceStatus.NoCompatibleSampleRate
+                        : AudioDeviceStatus.NoDuplexAudioDevice;
 
                 devices.Add(new AudioDeviceInfo(
                     index.ToString(CultureInfo.InvariantCulture),
@@ -59,6 +58,7 @@ public sealed class PortAudioBackend : IAudioBackend
                     Name,
                     isAvailable,
                     status,
+                    null,
                     capabilities));
             }
             catch (Exception exception)
@@ -68,6 +68,7 @@ public sealed class PortAudioBackend : IAudioBackend
                     $"PortAudio device {index}",
                     Name,
                     false,
+                    AudioDeviceStatus.Unavailable,
                     exception.Message,
                     null));
             }
@@ -146,10 +147,10 @@ public sealed class PortAudioBackend : IAudioBackend
 
         bufferSizes.Add(preferredBufferSize);
         var inputChannels = Enumerable.Range(0, Math.Max(info.maxInputChannels, 0))
-            .Select(index => new AudioChannelInfo(index, I18n.Format(nameof(I18n.InputFallback), index + 1)))
+            .Select(index => new AudioChannelInfo(index, null, AudioChannelDirection.Input))
             .ToArray();
         var outputChannels = Enumerable.Range(0, Math.Max(info.maxOutputChannels, 0))
-            .Select(index => new AudioChannelInfo(index, I18n.Format(nameof(I18n.OutputFallback), index + 1)))
+            .Select(index => new AudioChannelInfo(index, null, AudioChannelDirection.Output))
             .ToArray();
 
         return new AudioDeviceCapabilities(

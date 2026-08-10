@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
 
-namespace EffectsLatencyTester;
+namespace EffectsLatencyTester.UI;
 
 public enum ThemeMode
 {

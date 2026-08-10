@@ -5,7 +5,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Platform;
 
-namespace EffectsLatencyTester;
+namespace EffectsLatencyTester.UI;
 
 public sealed class WaveformViewportChangedEventArgs(double offset, double span) : EventArgs
 {

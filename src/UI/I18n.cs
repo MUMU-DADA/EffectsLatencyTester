@@ -1,7 +1,8 @@
+using EffectsLatencyTester.Core;
 using System.Globalization;
 using System.Resources;
 
-namespace EffectsLatencyTester;
+namespace EffectsLatencyTester.UI;
 
 public static class I18n
 {
@@ -160,6 +161,29 @@ public static class I18n
         return null;
     }
 
+    public static string GetDeviceStatus(AudioDeviceStatus status)
+    {
+        return status switch
+        {
+            AudioDeviceStatus.Ready => DriverReady,
+            AudioDeviceStatus.NoCompatibleSampleRate => NoCompatibleSampleRate,
+            AudioDeviceStatus.NoDuplexAudioDevice => NoDuplexAudioDevice,
+            _ => DriverUnavailable,
+        };
+    }
+
+    public static string GetChannelName(AudioChannelInfo channel)
+    {
+        if (!string.IsNullOrWhiteSpace(channel.Name))
+        {
+            return channel.Name.Trim();
+        }
+
+        var key = channel.Direction == AudioChannelDirection.Input
+            ? nameof(InputFallback)
+            : nameof(OutputFallback);
+        return Format(key, channel.Index + 1);
+    }
     public static string Get(string key)
     {
         return ResourceManager.GetString(key, CultureInfo.CurrentUICulture) ?? key;
