@@ -1,0 +1,36 @@
+<Application x:Class="EffectsLatencyTester.App"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             RequestedThemeVariant="Dark">
+  <Application.Resources>
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#11151A" />
+    <SolidColorBrush x:Key="SurfaceBackgroundBrush" Color="#181E24" />
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#0D1115" />
+    <SolidColorBrush x:Key="BorderBrush" Color="#4C5864" />
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#E8EDF2" />
+    <SolidColorBrush x:Key="MutedForegroundBrush" Color="#9EAEBC" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#0078D7" />
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="StatusBackgroundBrush" Color="#181E24" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#0078D7" />
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#0078D7" />
+  </Application.Resources>
+  <Application.Styles>
+    <FluentTheme />
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+    </Style>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+  </Application.Styles>
+</Application>

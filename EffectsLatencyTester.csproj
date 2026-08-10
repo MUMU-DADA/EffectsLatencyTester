@@ -1,31 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Version>1.0.1</Version>
-    <UseWPF>true</UseWPF>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>1.1.0</Version>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <NeutralLanguage>en</NeutralLanguage>
-    <ApplicationIcon>Assets\EffectsLatencyTesterIcon.ico</ApplicationIcon>
-    <Platforms>x86;x64;arm64</Platforms>
-    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
+    <RootNamespace>EffectsLatencyTester</RootNamespace>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultAvaloniaResourceItems>false</EnableDefaultAvaloniaResourceItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="i18n\Strings.resx" LogicalName="EffectsLatencyTester.Strings.resources" />
-    <EmbeddedResource Update="i18n\Strings.de.resx" LogicalName="EffectsLatencyTester.Strings.de.resources" />
-    <EmbeddedResource Update="i18n\Strings.es.resx" LogicalName="EffectsLatencyTester.Strings.es.resources" />
-    <EmbeddedResource Update="i18n\Strings.fr.resx" LogicalName="EffectsLatencyTester.Strings.fr.resources" />
-    <EmbeddedResource Update="i18n\Strings.it.resx" LogicalName="EffectsLatencyTester.Strings.it.resources" />
-    <EmbeddedResource Update="i18n\Strings.ja.resx" LogicalName="EffectsLatencyTester.Strings.ja.resources" />
-    <EmbeddedResource Update="i18n\Strings.ko.resx" LogicalName="EffectsLatencyTester.Strings.ko.resources" />
-    <EmbeddedResource Update="i18n\Strings.pt-BR.resx" LogicalName="EffectsLatencyTester.Strings.pt-BR.resources" />
-    <EmbeddedResource Update="i18n\Strings.ru.resx" LogicalName="EffectsLatencyTester.Strings.ru.resources" />
-    <EmbeddedResource Update="i18n\Strings.zh-TW.resx" LogicalName="EffectsLatencyTester.Strings.zh-TW.resources" />
-    <EmbeddedResource Update="i18n\Strings.zh.resx" LogicalName="EffectsLatencyTester.Strings.zh.resources" />
-    <Resource Include="Assets\EffectsLatencyTesterIcon.ico" />
-    <None Include="Assets\EffectsLatencyTesterIcon.svg" />
+    <Compile Include="Program.cs" />
+    <Compile Include="src\**\*.cs" />
+    <AvaloniaResource Include="Assets\EffectsLatencyTesterIcon.ico" />
+    <EmbeddedResource Include="i18n\Strings.resx" LogicalName="EffectsLatencyTester.Strings.resources" />
+    <EmbeddedResource Include="i18n\Strings.de.resx" LogicalName="EffectsLatencyTester.Strings.de.resources" />
+    <EmbeddedResource Include="i18n\Strings.es.resx" LogicalName="EffectsLatencyTester.Strings.es.resources" />
+    <EmbeddedResource Include="i18n\Strings.fr.resx" LogicalName="EffectsLatencyTester.Strings.fr.resources" />
+    <EmbeddedResource Include="i18n\Strings.it.resx" LogicalName="EffectsLatencyTester.Strings.it.resources" />
+    <EmbeddedResource Include="i18n\Strings.ja.resx" LogicalName="EffectsLatencyTester.Strings.ja.resources" />
+    <EmbeddedResource Include="i18n\Strings.ko.resx" LogicalName="EffectsLatencyTester.Strings.ko.resources" />
+    <EmbeddedResource Include="i18n\Strings.pt-BR.resx" LogicalName="EffectsLatencyTester.Strings.pt-BR.resources" />
+    <EmbeddedResource Include="i18n\Strings.ru.resx" LogicalName="EffectsLatencyTester.Strings.ru.resources" />
+    <EmbeddedResource Include="i18n\Strings.zh-TW.resx" LogicalName="EffectsLatencyTester.Strings.zh-TW.resources" />
+    <EmbeddedResource Include="i18n\Strings.zh.resx" LogicalName="EffectsLatencyTester.Strings.zh.resources" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
     <PackageReference Include="NAudio.Asio" Version="2.2.1" />
+    <PackageReference Include="PortAudioSharp2" Version="1.0.6" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using Avalonia;
+using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace EffectsLatencyTester;
 
@@ -89,31 +88,13 @@ public sealed record ThemePalette(
 
 public static class ThemeManager
 {
-    public const string WindowBackgroundBrush = nameof(WindowBackgroundBrush);
-    public const string SurfaceBackgroundBrush = nameof(SurfaceBackgroundBrush);
-    public const string InputBackgroundBrush = nameof(InputBackgroundBrush);
-    public const string BorderBrush = nameof(BorderBrush);
-    public const string ForegroundBrush = nameof(ForegroundBrush);
-    public const string MutedForegroundBrush = nameof(MutedForegroundBrush);
-    public const string AccentBrush = nameof(AccentBrush);
-    public const string AccentForegroundBrush = nameof(AccentForegroundBrush);
-    public const string StatusBackgroundBrush = nameof(StatusBackgroundBrush);
-    public const string ButtonBackgroundBrush = nameof(ButtonBackgroundBrush);
-    public const string ButtonForegroundBrush = nameof(ButtonForegroundBrush);
-    public const string ButtonBorderBrush = nameof(ButtonBorderBrush);
-    private const string DarkComboBoxStyleKey = "DarkComboBoxStyle";
-    private const string DarkComboBoxItemStyleKey = "DarkComboBoxItemStyle";
-    private const string DarkButtonStyleKey = "DarkButtonStyle";
-
     private static readonly string SettingsPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "EffectsLatencyTester",
         "theme.txt");
 
     public static ThemeMode CurrentMode { get; private set; } = ThemeMode.Dark;
-
     public static ThemePalette CurrentPalette { get; private set; } = ThemePalette.Dark;
-
     public static event EventHandler<ThemePalette>? ThemeChanged;
 
     public static void Initialize()
@@ -130,23 +111,24 @@ public static class ThemeManager
     {
         CurrentMode = mode;
         CurrentPalette = mode == ThemeMode.Light ? ThemePalette.Light : ThemePalette.Dark;
-
         if (Application.Current is not null)
         {
+            Application.Current.RequestedThemeVariant = mode == ThemeMode.Light
+                ? ThemeVariant.Light
+                : ThemeVariant.Dark;
             var resources = Application.Current.Resources;
-            SetBrush(resources, WindowBackgroundBrush, CurrentPalette.WindowBackground);
-            SetBrush(resources, SurfaceBackgroundBrush, CurrentPalette.SurfaceBackground);
-            SetBrush(resources, InputBackgroundBrush, CurrentPalette.InputBackground);
-            SetBrush(resources, BorderBrush, CurrentPalette.Border);
-            SetBrush(resources, ForegroundBrush, CurrentPalette.Foreground);
-            SetBrush(resources, MutedForegroundBrush, CurrentPalette.MutedForeground);
-            SetBrush(resources, AccentBrush, CurrentPalette.Accent);
-            SetBrush(resources, AccentForegroundBrush, CurrentPalette.AccentForeground);
-            SetBrush(resources, StatusBackgroundBrush, CurrentPalette.StatusBackground);
-            SetBrush(resources, ButtonBackgroundBrush, CurrentPalette.ButtonBackground);
-            SetBrush(resources, ButtonForegroundBrush, CurrentPalette.ButtonForeground);
-            SetBrush(resources, ButtonBorderBrush, CurrentPalette.ButtonBorder);
-            ApplyControlStyles(resources, mode);
+            SetBrush(resources, "WindowBackgroundBrush", CurrentPalette.WindowBackground);
+            SetBrush(resources, "SurfaceBackgroundBrush", CurrentPalette.SurfaceBackground);
+            SetBrush(resources, "InputBackgroundBrush", CurrentPalette.InputBackground);
+            SetBrush(resources, "BorderBrush", CurrentPalette.Border);
+            SetBrush(resources, "ForegroundBrush", CurrentPalette.Foreground);
+            SetBrush(resources, "MutedForegroundBrush", CurrentPalette.MutedForeground);
+            SetBrush(resources, "AccentBrush", CurrentPalette.Accent);
+            SetBrush(resources, "AccentForegroundBrush", CurrentPalette.AccentForeground);
+            SetBrush(resources, "StatusBackgroundBrush", CurrentPalette.StatusBackground);
+            SetBrush(resources, "ButtonBackgroundBrush", CurrentPalette.ButtonBackground);
+            SetBrush(resources, "ButtonForegroundBrush", CurrentPalette.ButtonForeground);
+            SetBrush(resources, "ButtonBorderBrush", CurrentPalette.ButtonBorder);
         }
 
         if (save)
@@ -157,27 +139,12 @@ public static class ThemeManager
         ThemeChanged?.Invoke(null, CurrentPalette);
     }
 
-    private static void ApplyControlStyles(ResourceDictionary resources, ThemeMode mode)
+    private static void SetBrush(Avalonia.Controls.IResourceDictionary? resources, string key, Color color)
     {
-        if (mode == ThemeMode.Dark)
+        if (resources is not null)
         {
-            resources[typeof(ComboBox)] = resources[DarkComboBoxStyleKey];
-            resources[typeof(ComboBoxItem)] = resources[DarkComboBoxItemStyleKey];
-            resources[typeof(Button)] = resources[DarkButtonStyleKey];
+            resources[key] = new SolidColorBrush(color);
         }
-        else
-        {
-            // Removing the implicit styles restores the native WPF light controls.
-            resources.Remove(typeof(ComboBox));
-            resources.Remove(typeof(ComboBoxItem));
-            resources.Remove(typeof(Button));
-        }
-    }
-    private static void SetBrush(ResourceDictionary resources, string key, Color color)
-    {
-        var brush = new SolidColorBrush(color);
-        brush.Freeze();
-        resources[key] = brush;
     }
 
     private static ThemeMode LoadTheme()

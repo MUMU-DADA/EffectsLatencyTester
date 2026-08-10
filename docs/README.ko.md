@@ -2,7 +2,7 @@
 
 [English](../README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md)
 
-이 프로젝트는 Windows WPF/.NET 8 프로토타입입니다. `NAudio.Asio`로 로컬 ASIO 드라이버를 나열하고 열어 오디오 인터페이스와 이펙터 보드의 왕복 지연 시간을 측정합니다.
+Avalonia를 사용하는 .NET 8 데스크톱 앱으로 오디오 인터페이스와 이펙터 보드의 왕복 지연 시간을 측정합니다. Windows는 ASIO, macOS는 Core Audio, Linux는 PortAudio를 통한 ALSA/PipeWire/JACK을 사용합니다.
 
 ## 실행
 
@@ -15,12 +15,12 @@ dotnet run --project .\EffectsLatencyTester.csproj
 
 ![프로그램 실행 화면](Snipaste.png)
 
-프로그램은 열 수 있는 첫 번째 드라이버를 우선 선택하고 샘플레이트, 버퍼 크기, 입출력 채널을 읽습니다. 테스트 펄스를 출력하고 반환 펄스를 감지한 뒤 입력·출력·결합 파형과 시간축을 표시합니다.
+프로그램은 열 수 있는 첫 번째 오디오 장치를 우선 선택하고 샘플레이트, 버퍼 크기, 입출력 채널을 읽습니다. 테스트 펄스를 출력하고 반환 펄스를 감지한 뒤 입력·출력·결합 파형과 시간축을 표시합니다.
 
 ## 연결
 
-1. 오디오 인터페이스 ASIO 출력을 이펙터 보드 입력에 연결합니다.
-2. 이펙터 보드 출력을 인터페이스 ASIO 입력으로 연결합니다.
+1. 오디오 인터페이스 오디오 출력을 이펙터 보드 입력에 연결합니다.
+2. 이펙터 보드 출력을 인터페이스 오디오 입력으로 연결합니다.
 3. Direct Monitoring을 끕니다.
 4. 낮은 볼륨부터 테스트합니다.
 
@@ -44,4 +44,6 @@ dotnet run --project .\EffectsLatencyTester.csproj
 .\publish.ps1
 ```
 
-기본적으로 `win-x86`, `win-x64`, `win-arm64`용 자체 포함 단일 파일을 생성합니다. 하나의 아키텍처만 만들려면 `-Runtime win-x64` 등을 지정하세요. 대상 PC에는 .NET을 설치할 필요가 없지만 호환되는 ASIO 드라이버가 필요합니다. 현재 WPF와 `NAudio.Asio`를 사용하므로 Linux와 macOS는 지원하지 않습니다.
+인수 없이 실행하면 `win-x86`, `win-x64`, `win-arm64`, `osx-x64`, `osx-arm64`, `linux-x64`, `linux-arm64`용 자체 포함 단일 파일을 생성합니다. 한 플랫폼만 만들려면 `-Runtime win-x64`, `-Runtime osx-arm64` 또는 `-Runtime linux-x64` 등을 지정하세요. 대상 컴퓨터에는 .NET을 설치할 필요가 없습니다. Windows에는 해당 ASIO 드라이버가 필요하며 macOS와 Linux는 PortAudio를 통해 각 운영체제의 네이티브 오디오 API를 사용합니다. macOS와 Linux 경로는 실제 하드웨어에서 추가 검증이 필요합니다.
+
+게시 파일 이름은 `EffectsLatencyTester_<os-arch>` 형식입니다. Windows에는 `.exe` 확장자가 붙고 macOS/Linux에는 확장자가 없습니다.

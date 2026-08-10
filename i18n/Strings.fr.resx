@@ -5,19 +5,19 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Mesure de latence des effets</value></data>
-  <data name="Description" xml:space="preserve"><value>Sélectionnez un pilote ASIO local. Mesurez d’abord la référence de l’interface audio en connexion directe, puis connectez le pédalier pour mesurer sa latence.</value></data>
+  <data name="Description" xml:space="preserve"><value>Sélectionnez un périphérique audio local. Mesurez d’abord la référence de l’interface audio en connexion directe, puis connectez le pédalier pour mesurer sa latence.</value></data>
   <data name="WaveformGroup" xml:space="preserve"><value>Formes d’onde du dernier test</value></data>
-  <data name="AsioDeviceGroup" xml:space="preserve"><value>Périphérique ASIO</value></data>
+  <data name="AsioDeviceGroup" xml:space="preserve"><value>Périphérique audio</value></data>
   <data name="Refresh" xml:space="preserve"><value>Actualiser</value></data>
   <data name="SampleRate" xml:space="preserve"><value>Fréquence d’échantillonnage :</value></data>
   <data name="BufferSize" xml:space="preserve"><value>Taille du tampon :</value></data>
-  <data name="BufferTooltip" xml:space="preserve"><value>Choisissez la taille du tampon ASIO pour cette mesure</value></data>
+  <data name="BufferTooltip" xml:space="preserve"><value>Choisissez la taille du tampon audio pour cette mesure</value></data>
   <data name="OutputChannel" xml:space="preserve"><value>Canal de sortie :</value></data>
   <data name="InputChannel" xml:space="preserve"><value>Canal d’entrée :</value></data>
   <data name="BaselineButton" xml:space="preserve"><value>Mesurer la référence de l’interface directe</value></data>
   <data name="EffectButton" xml:space="preserve"><value>Mesurer la boucle d’effets</value></data>
   <data name="BaselineNotRecorded" xml:space="preserve"><value>Référence de l’interface directe non enregistrée</value></data>
-  <data name="InitialLoading" xml:space="preserve"><value>Chargement des pilotes ASIO...</value></data>
+  <data name="InitialLoading" xml:space="preserve"><value>Chargement des périphériques audio...</value></data>
   <data name="RecentTest" xml:space="preserve"><value>Dernier test</value></data>
   <data name="DetectedLatency" xml:space="preserve"><value>Latence détectée {0:F2} ms</value></data>
   <data name="Time1Value" xml:space="preserve"><value>T1={0:F3} ms</value></data>
@@ -32,7 +32,7 @@
   <data name="TimeSeconds" xml:space="preserve"><value>{0:0.00}s</value></data>
   <data name="NameLabel" xml:space="preserve"><value>Nom : {0}</value></data>
   <data name="StateLabel" xml:space="preserve"><value>État : {0}</value></data>
-  <data name="DriverReady" xml:space="preserve"><value>Le pilote peut être ouvert</value></data>
+  <data name="DriverReady" xml:space="preserve"><value>Le périphérique peut être ouvert</value></data>
   <data name="CurrentSampleRate" xml:space="preserve"><value>Fréquence actuelle : {0} Hz</value></data>
   <data name="BufferRange" xml:space="preserve"><value>Tampon : {0} - {1} samples, recommandé {2}</value></data>
   <data name="InitialSelection" xml:space="preserve"><value>Sélection initiale : {0} Hz / {1} samples</value></data>
@@ -40,10 +40,10 @@
   <data name="OutputChannelCount" xml:space="preserve"><value>Canaux de sortie : {0}</value></data>
   <data name="InputChannelCount" xml:space="preserve"><value>Canaux d’entrée : {0}</value></data>
   <data name="DeviceParametersLoaded" xml:space="preserve"><value>Paramètres du périphérique chargés</value></data>
-  <data name="FoundDrivers" xml:space="preserve"><value>{0} pilote(s) ASIO trouvé(s)</value></data>
-  <data name="NoDrivers" xml:space="preserve"><value>Aucun pilote ASIO trouvé</value></data>
-  <data name="ReadDriversFailed" xml:space="preserve"><value>Échec de la lecture des pilotes ASIO</value></data>
-  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>Échec de la lecture des pilotes ASIO : {0}</value></data>
+  <data name="FoundDrivers" xml:space="preserve"><value>{0} périphérique(s) audio trouvé(s)</value></data>
+  <data name="NoDrivers" xml:space="preserve"><value>Aucun périphérique audio trouvé</value></data>
+  <data name="ReadDriversFailed" xml:space="preserve"><value>Échec de la lecture des périphériques audio</value></data>
+  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>Échec de la lecture des périphériques audio : {0}</value></data>
   <data name="BaselineStatus" xml:space="preserve"><value>Mesure de la référence de l’interface directe. Vérifiez que la sortie est directement reliée à l’entrée...</value></data>
   <data name="EffectStatus" xml:space="preserve"><value>Mesure de la boucle d’effets. Vérifiez que le pédalier est connecté et que le volume est faible...</value></data>
   <data name="BaselineRecorded" xml:space="preserve"><value>Référence de l’interface directe : {0:F2} ms ({1} samples)</value></data>
@@ -51,19 +51,19 @@
   <data name="PleaseBaseline" xml:space="preserve"><value>Mesurez d’abord la référence de l’interface directe</value></data>
   <data name="EffectLatency" xml:space="preserve"><value>Latence du pédalier : {0:F2} ms (aller-retour total {1:F2} ms)</value></data>
   <data name="EffectBelowBaseline" xml:space="preserve"><value>Le résultat de la boucle d’effets est inférieur à la référence : {0:F2} ms. Vérifiez le câblage ou recommencez la mesure</value></data>
-  <data name="PleaseChooseDriver" xml:space="preserve"><value>Sélectionnez un pilote ASIO</value></data>
+  <data name="PleaseChooseDriver" xml:space="preserve"><value>Sélectionnez un périphérique audio</value></data>
   <data name="PleaseChooseSettings" xml:space="preserve"><value>Choisissez une fréquence, une taille de tampon et des canaux d’entrée et de sortie valides</value></data>
   <data name="NoPulse" xml:space="preserve"><value>Aucune impulsion de retour détectée. Vérifiez les canaux, le câblage et le volume</value></data>
   <data name="MeasurementFailed" xml:space="preserve"><value>Échec de la mesure : {0}</value></data>
-  <data name="DriverUnavailable" xml:space="preserve"><value>Le pilote est enregistré, mais aucun matériel n’a été trouvé. Connectez et démarrez le périphérique, ou fermez un autre programme audio qui l’utilise.</value></data>
-  <data name="DriverCannotOpen" xml:space="preserve"><value>Impossible d’ouvrir le pilote{0}{1}</value></data>
-  <data name="AsioDriverGone" xml:space="preserve"><value>Le pilote ASIO n’est plus disponible. Actualisez la liste des périphériques</value></data>
-  <data name="UnsupportedSampleRate" xml:space="preserve"><value>Le pilote ne prend pas en charge {0} Hz</value></data>
-  <data name="BufferUnsupported" xml:space="preserve"><value>Le pilote ne prend pas en charge {0} samples ; la plage autorisée est {1} - {2}</value></data>
-  <data name="BufferActualMismatch" xml:space="preserve"><value>Le pilote a créé un tampon de {0} samples au lieu des {1} demandés</value></data>
-  <data name="AudioCallbackFailed" xml:space="preserve"><value>Échec du rappel audio ASIO</value></data>
-  <data name="InputBufferChanged" xml:space="preserve"><value>La taille du tampon d’entrée ASIO a changé</value></data>
-  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>Le format de sortie ASIO {0} n’est pas encore pris en charge</value></data>
+  <data name="DriverUnavailable" xml:space="preserve"><value>Le périphérique audio est enregistré, mais aucun matériel n’a été trouvé. Connectez et démarrez le périphérique, ou fermez un autre programme audio qui l’utilise.</value></data>
+  <data name="DriverCannotOpen" xml:space="preserve"><value>Impossible d’ouvrir le périphérique audio{0}{1}</value></data>
+  <data name="AsioDriverGone" xml:space="preserve"><value>Le périphérique audio n’est plus disponible. Actualisez la liste des périphériques</value></data>
+  <data name="UnsupportedSampleRate" xml:space="preserve"><value>Le backend audio ne prend pas en charge {0} Hz</value></data>
+  <data name="BufferUnsupported" xml:space="preserve"><value>Le backend audio ne prend pas en charge {0} échantillons ; plage autorisée : {1} - {2}</value></data>
+  <data name="BufferActualMismatch" xml:space="preserve"><value>Le backend audio a créé {0} échantillons au lieu des {1} demandés</value></data>
+  <data name="AudioCallbackFailed" xml:space="preserve"><value>Échec du rappel audio</value></data>
+  <data name="InputBufferChanged" xml:space="preserve"><value>La taille du tampon d’entrée audio a changé</value></data>
+  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>Le format de sortie audio {0} n’est pas encore pris en charge</value></data>
   <data name="InputFallback" xml:space="preserve"><value>Entrée {0}</value></data>
   <data name="OutputFallback" xml:space="preserve"><value>Sortie {0}</value></data>
   <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
@@ -78,4 +78,7 @@
   <data name="ThemeLabel" xml:space="preserve"><value>Thème</value></data>
   <data name="ThemeDark" xml:space="preserve"><value>Sombre</value></data>
   <data name="ThemeLight" xml:space="preserve"><value>Clair</value></data>
+  <data name="AudioDeviceGroup" xml:space="preserve"><value>Périphérique audio</value></data>
+  <data name="NoCompatibleSampleRate" xml:space="preserve"><value>Aucune fréquence d’échantillonnage compatible n’a été trouvée.</value></data>
+  <data name="NoDuplexAudioDevice" xml:space="preserve"><value>Le périphérique ne fournit pas simultanément des canaux d’entrée et de sortie.</value></data>
 </root>

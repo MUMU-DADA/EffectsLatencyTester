@@ -1,0 +1,119 @@
+<Window x:Class="EffectsLatencyTester.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:EffectsLatencyTester"
+        Title="效果器延迟检测"
+        Icon="/Assets/EffectsLatencyTesterIcon.ico"
+        Width="1600"
+        Height="820"
+        MinWidth="1260"
+        MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+  <Grid Margin="24" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*,20,600">
+    <Grid Grid.ColumnSpan="3">
+      <TextBlock x:Name="TitleTextBlock" FontSize="24" FontWeight="SemiBold" Text="效果器延迟检测" />
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <TextBlock x:Name="ThemeLabelTextBlock" VerticalAlignment="Center" Text="主题" />
+        <ComboBox x:Name="ThemeComboBox" Width="150" Margin="10,0,0,0"
+                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding DisplayName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </StackPanel>
+    </Grid>
+
+    <TextBlock x:Name="DescriptionTextBlock" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,8,0,18"
+               Text="测量声卡和效果器链路的输入到输出延迟。" TextWrapping="Wrap" />
+
+    <Border Grid.Row="2" Grid.Column="0" Padding="12" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <TextBlock x:Name="WaveformGroupTextBlock" Grid.Row="0" Margin="0,0,0,8" FontWeight="SemiBold" Text="波形" />
+        <local:WaveformPlot x:Name="WaveformPlot" Grid.Row="1" MinWidth="580" MinHeight="420" />
+        <ScrollBar x:Name="WaveformScrollBar" Grid.Row="2" Height="18" Margin="0,8,0,0"
+                   Orientation="Horizontal" Minimum="0" Maximum="1" ViewportSize="1"
+                   IsVisible="False" IsEnabled="False" />
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="2" Grid.Column="2" Padding="12" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <TextBlock x:Name="AudioDeviceGroupTextBlock" Grid.Row="0" Margin="0,0,0,8" FontWeight="SemiBold" Text="Audio Device" />
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto,Auto">
+          <StackPanel Orientation="Horizontal">
+            <ComboBox x:Name="DriverComboBox" Width="470" HorizontalContentAlignment="Left">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock HorizontalAlignment="Left" Text="{Binding Name}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="RefreshButton" Margin="10,0,0,0" Padding="14,4" Click="RefreshButton_Click" Content="刷新" />
+          </StackPanel>
+
+          <StackPanel Grid.Row="1" Margin="0,14,0,0" Orientation="Horizontal">
+            <TextBlock x:Name="SampleRateLabel" VerticalAlignment="Center" Text="采样率:" />
+            <ComboBox x:Name="SampleRateComboBox" Width="130" Margin="8,0,18,0" HorizontalContentAlignment="Left">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock x:Name="BufferSizeLabel" VerticalAlignment="Center" Text="Buffer size:" />
+            <ComboBox x:Name="BufferSizeComboBox" Width="130" Margin="8,0,0,0" HorizontalContentAlignment="Left">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+
+          <StackPanel Grid.Row="2" Margin="0,12,0,0" Orientation="Horizontal">
+            <TextBlock x:Name="OutputChannelLabel" VerticalAlignment="Center" Text="输出通道:" />
+            <ComboBox x:Name="OutputChannelComboBox" Width="460" Margin="8,0,0,0" HorizontalContentAlignment="Left">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+
+          <StackPanel Grid.Row="3" Margin="0,10,0,0" Orientation="Horizontal">
+            <TextBlock x:Name="InputChannelLabel" VerticalAlignment="Center" Text="输入通道:" />
+            <ComboBox x:Name="InputChannelComboBox" Width="460" Margin="8,0,0,0" HorizontalContentAlignment="Left">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+
+          <TextBox x:Name="DetailsTextBox" Grid.Row="4" IsReadOnly="True" AcceptsReturn="True"
+                   BorderThickness="1" FontFamily="Cascadia Mono" MinHeight="110" TextWrapping="Wrap"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto" />
+
+          <StackPanel Grid.Row="5" Margin="0,12,0,0" Orientation="Horizontal">
+            <Button x:Name="MeasureBaselineButton" Padding="14,4" Click="MeasureBaselineButton_Click" Content="校正声卡" />
+            <Button x:Name="MeasureEffectButton" Margin="10,0,0,0" Padding="14,4"
+                    Click="MeasureEffectButton_Click" Content="测试效果器" />
+          </StackPanel>
+          <TextBlock x:Name="BaselineTextBlock" Grid.Row="6" Margin="0,10,0,0" Text="尚未记录基准延迟" />
+          <Button x:Name="ExportCurrentButton" Grid.Row="7" Margin="0,12,0,0" Padding="14,4"
+                  Click="ExportCurrentButton_Click" Content="导出当前结果 (ZIP)"
+                  IsEnabled="False" HorizontalAlignment="Left" />
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="3" Grid.ColumnSpan="3" Margin="0,18,0,0" Padding="8"
+            Background="{DynamicResource StatusBackgroundBrush}">
+      <TextBlock x:Name="StatusTextBlock" Text="正在加载..." />
+    </Border>
+  </Grid>
+</Window>

@@ -1,14 +1,14 @@
+using System.Buffers.Binary;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
 using System.Text;
-using NAudio.Wave;
+using EffectsLatencyTester.Core;
 
 namespace EffectsLatencyTester;
 
-internal sealed record MeasurementExportData(
+public sealed record MeasurementExportData(
     string LastTestName,
-    string DriverName,
+    string AudioDeviceName,
     int SampleRate,
     int BufferSize,
     int OutputChannel,
@@ -20,7 +20,7 @@ internal sealed record MeasurementExportData(
     LatencyResult? BaselineResult,
     LatencyResult? EffectsResult);
 
-internal static class MeasurementExport
+public static class MeasurementExport
 {
     public static void CreateZip(string destinationPath, MeasurementExportData data)
     {
@@ -50,7 +50,6 @@ internal static class MeasurementExport
             }
             catch
             {
-                // Keep the original export exception when cleanup also fails.
             }
 
             throw;
@@ -62,7 +61,7 @@ internal static class MeasurementExport
         var csv = new StringBuilder();
         AppendCsvRow(csv, "Field", "Value");
         AppendCsvRow(csv, "Last test", data.LastTestName);
-        AppendCsvRow(csv, "Driver", data.DriverName);
+        AppendCsvRow(csv, "Audio device", data.AudioDeviceName);
         AppendCsvRow(csv, "Sample rate (Hz)", data.SampleRate.ToString(CultureInfo.InvariantCulture));
         AppendCsvRow(csv, "Buffer size (samples)", data.BufferSize.ToString(CultureInfo.InvariantCulture));
         AppendCsvRow(csv, "Output channel", $"{data.OutputChannel}: {data.OutputChannelName}");
@@ -83,15 +82,9 @@ internal static class MeasurementExport
         return csv.ToString();
     }
 
-    private static string FormatOptional(int? value)
-    {
-        return value?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-    }
+    private static string FormatOptional(int? value) => value?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
 
-    private static string FormatOptional(double? value)
-    {
-        return value?.ToString("F6", CultureInfo.InvariantCulture) ?? string.Empty;
-    }
+    private static string FormatOptional(double? value) => value?.ToString("F6", CultureInfo.InvariantCulture) ?? string.Empty;
 
     private static void AppendCsvRow(StringBuilder csv, string field, string value)
     {
@@ -122,22 +115,51 @@ internal static class MeasurementExport
         IReadOnlyList<float> samples,
         int sampleRate)
     {
-        byte[] waveData;
-        using (var waveStream = new MemoryStream())
-        {
-            using (var writer = new WaveFileWriter(
-                       waveStream,
-                       WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1)))
-            {
-                var sampleArray = samples.ToArray();
-                writer.WriteSamples(sampleArray, 0, sampleArray.Length);
-            }
-
-            waveData = waveStream.ToArray();
-        }
-
         var entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
         using var stream = entry.Open();
-        stream.Write(waveData, 0, waveData.Length);
+        WriteWave(stream, samples, sampleRate);
+    }
+
+    private static void WriteWave(Stream stream, IReadOnlyList<float> samples, int sampleRate)
+    {
+        const short channels = 1;
+        const short bitsPerSample = 32;
+        const short audioFormat = 3; // IEEE float
+        const short blockAlign = channels * (bitsPerSample / 8);
+        var dataSize = checked(samples.Count * blockAlign);
+        var riffSize = checked(36 + dataSize);
+        var header = new byte[44];
+
+        WriteAscii(header, 0, "RIFF");
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(4), riffSize);
+        WriteAscii(header, 8, "WAVE");
+        WriteAscii(header, 12, "fmt ");
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(16), 16);
+        BinaryPrimitives.WriteInt16LittleEndian(header.AsSpan(20), audioFormat);
+        BinaryPrimitives.WriteInt16LittleEndian(header.AsSpan(22), channels);
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(24), sampleRate);
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(28), sampleRate * blockAlign);
+        BinaryPrimitives.WriteInt16LittleEndian(header.AsSpan(32), blockAlign);
+        BinaryPrimitives.WriteInt16LittleEndian(header.AsSpan(34), bitsPerSample);
+        WriteAscii(header, 36, "data");
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(40), dataSize);
+        stream.Write(header);
+
+        Span<byte> sampleBytes = stackalloc byte[4];
+        foreach (var sample in samples)
+        {
+            BinaryPrimitives.WriteInt32LittleEndian(
+                sampleBytes,
+                BitConverter.SingleToInt32Bits(Math.Clamp(float.IsFinite(sample) ? sample : 0f, -1f, 1f)));
+            stream.Write(sampleBytes);
+        }
+    }
+
+    private static void WriteAscii(byte[] destination, int offset, string value)
+    {
+        for (var index = 0; index < value.Length; index++)
+        {
+            destination[offset + index] = (byte)value[index];
+        }
     }
 }
