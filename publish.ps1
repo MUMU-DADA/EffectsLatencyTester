@@ -103,6 +103,15 @@ function Publish-Runtime {
     Write-Host ("Output files: " + ($publishedFiles.Name -join ', '))
 }
 
+$localDotnetHome = Join-Path $PSScriptRoot '.dotnet-home'
+$localNugetPackages = Join-Path $PSScriptRoot '.nuget-packages'
+$previousDotnetCliHome = $env:DOTNET_CLI_HOME
+$previousNugetPackages = $env:NUGET_PACKAGES
+
+# Keep the CLI state and NuGet package cache local to this project while publishing.
+New-Item -ItemType Directory -Path $localDotnetHome, $localNugetPackages -Force | Out-Null
+$env:DOTNET_CLI_HOME = $localDotnetHome
+$env:NUGET_PACKAGES = $localNugetPackages
 try {
     foreach ($targetRuntime in $runtimes) {
         $targetOutputPath = if ($Runtime -eq 'All' -or -not $hasExplicitOutputPath) {
@@ -117,4 +126,8 @@ try {
 }
 finally {
     Remove-WpfTemporaryProjects
+
+    # Do not leak the publish script's project-local environment into the caller.
+    $env:DOTNET_CLI_HOME = $previousDotnetCliHome
+    $env:NUGET_PACKAGES = $previousNugetPackages
 }
