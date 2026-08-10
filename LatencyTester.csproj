@@ -12,6 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="i18n\Strings.resx" LogicalName="LatencyTester.Strings.resources" />
+    <EmbeddedResource Update="i18n\Strings.de.resx" LogicalName="LatencyTester.Strings.de.resources" />
+    <EmbeddedResource Update="i18n\Strings.es.resx" LogicalName="LatencyTester.Strings.es.resources" />
+    <EmbeddedResource Update="i18n\Strings.fr.resx" LogicalName="LatencyTester.Strings.fr.resources" />
+    <EmbeddedResource Update="i18n\Strings.it.resx" LogicalName="LatencyTester.Strings.it.resources" />
+    <EmbeddedResource Update="i18n\Strings.ja.resx" LogicalName="LatencyTester.Strings.ja.resources" />
+    <EmbeddedResource Update="i18n\Strings.ko.resx" LogicalName="LatencyTester.Strings.ko.resources" />
+    <EmbeddedResource Update="i18n\Strings.pt-BR.resx" LogicalName="LatencyTester.Strings.pt-BR.resources" />
+    <EmbeddedResource Update="i18n\Strings.ru.resx" LogicalName="LatencyTester.Strings.ru.resources" />
+    <EmbeddedResource Update="i18n\Strings.zh-TW.resx" LogicalName="LatencyTester.Strings.zh-TW.resources" />
+    <EmbeddedResource Update="i18n\Strings.zh.resx" LogicalName="LatencyTester.Strings.zh.resources" />
     <Resource Include="Assets\LatencyTesterIcon.ico" />
     <None Include="Assets\LatencyTesterIcon.svg" />
     <PackageReference Include="NAudio.Asio" Version="2.2.1" />

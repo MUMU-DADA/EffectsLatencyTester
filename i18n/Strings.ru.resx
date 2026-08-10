@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Измеритель задержки эффектов</value></data>
+  <data name="Description" xml:space="preserve"><value>Выберите локальный драйвер ASIO. Сначала измерьте базовую задержку аудиоинтерфейса при прямом подключении, затем подключите педалборд и измерьте его задержку.</value></data>
+  <data name="WaveformGroup" xml:space="preserve"><value>Осциллограммы последнего теста</value></data>
+  <data name="AsioDeviceGroup" xml:space="preserve"><value>Устройство ASIO</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Обновить</value></data>
+  <data name="SampleRate" xml:space="preserve"><value>Частота дискретизации:</value></data>
+  <data name="BufferSize" xml:space="preserve"><value>Размер буфера:</value></data>
+  <data name="BufferTooltip" xml:space="preserve"><value>Выберите размер буфера ASIO для этого измерения</value></data>
+  <data name="OutputChannel" xml:space="preserve"><value>Выходной канал:</value></data>
+  <data name="InputChannel" xml:space="preserve"><value>Входной канал:</value></data>
+  <data name="BaselineButton" xml:space="preserve"><value>Измерить базовую задержку интерфейса</value></data>
+  <data name="EffectButton" xml:space="preserve"><value>Измерить цепь эффектов</value></data>
+  <data name="BaselineNotRecorded" xml:space="preserve"><value>Базовая задержка интерфейса не записана</value></data>
+  <data name="InitialLoading" xml:space="preserve"><value>Загрузка драйверов ASIO...</value></data>
+  <data name="RecentTest" xml:space="preserve"><value>Последний тест</value></data>
+  <data name="DetectedLatency" xml:space="preserve"><value>Обнаруженная задержка {0:F2} мс</value></data>
+  <data name="Time1Value" xml:space="preserve"><value>T1={0:F3} мс</value></data>
+  <data name="Time2DeltaValue" xml:space="preserve"><value>T2={0:F3} мс    Δ={1:F3} мс</value></data>
+  <data name="Time1Short" xml:space="preserve"><value>T1</value></data>
+  <data name="Time2Short" xml:space="preserve"><value>T2</value></data>
+  <data name="InputWaveform" xml:space="preserve"><value>Входная осциллограмма</value></data>
+  <data name="OutputWaveform" xml:space="preserve"><value>Выходная осциллограмма</value></data>
+  <data name="CombinedWaveform" xml:space="preserve"><value>Объединённая осциллограмма (вход / выход)</value></data>
+  <data name="WaveformEmpty" xml:space="preserve"><value>Завершите тест, чтобы увидеть входную и выходную осциллограммы</value></data>
+  <data name="Cursor" xml:space="preserve"><value>t={0:0.000}с  Вход={1:0.000}  Выход={2:0.000}</value></data>
+  <data name="TimeSeconds" xml:space="preserve"><value>{0:0.00}с</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Имя: {0}</value></data>
+  <data name="StateLabel" xml:space="preserve"><value>Состояние: {0}</value></data>
+  <data name="DriverReady" xml:space="preserve"><value>Драйвер можно открыть</value></data>
+  <data name="CurrentSampleRate" xml:space="preserve"><value>Текущая частота дискретизации: {0} Гц</value></data>
+  <data name="BufferRange" xml:space="preserve"><value>Буфер: {0} - {1} samples, предпочтительно {2}</value></data>
+  <data name="InitialSelection" xml:space="preserve"><value>Начальный выбор: {0} Гц / {1} samples</value></data>
+  <data name="SupportedSampleRates" xml:space="preserve"><value>Поддерживаемые частоты: {0} Гц</value></data>
+  <data name="OutputChannelCount" xml:space="preserve"><value>Выходные каналы: {0}</value></data>
+  <data name="InputChannelCount" xml:space="preserve"><value>Входные каналы: {0}</value></data>
+  <data name="DeviceParametersLoaded" xml:space="preserve"><value>Параметры устройства загружены</value></data>
+  <data name="FoundDrivers" xml:space="preserve"><value>Найдено драйверов ASIO: {0}</value></data>
+  <data name="NoDrivers" xml:space="preserve"><value>Драйверы ASIO не найдены</value></data>
+  <data name="ReadDriversFailed" xml:space="preserve"><value>Не удалось прочитать драйверы ASIO</value></data>
+  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>Не удалось прочитать драйверы ASIO: {0}</value></data>
+  <data name="BaselineStatus" xml:space="preserve"><value>Измеряется базовая задержка интерфейса. Убедитесь, что выход напрямую подключён ко входу...</value></data>
+  <data name="EffectStatus" xml:space="preserve"><value>Измеряется цепь эффектов. Убедитесь, что педалборд подключён, а громкость снижена...</value></data>
+  <data name="BaselineRecorded" xml:space="preserve"><value>Базовая задержка интерфейса: {0:F2} мс ({1} samples)</value></data>
+  <data name="BaselineNext" xml:space="preserve"><value>Базовая задержка записана. Подключите педалборд и измерьте цепь эффектов.</value></data>
+  <data name="PleaseBaseline" xml:space="preserve"><value>Сначала измерьте базовую задержку интерфейса</value></data>
+  <data name="EffectLatency" xml:space="preserve"><value>Задержка педалборда: {0:F2} мс (общая задержка туда-обратно {1:F2} мс)</value></data>
+  <data name="EffectBelowBaseline" xml:space="preserve"><value>Результат цепи эффектов меньше базового: {0:F2} мс. Проверьте кабели или повторите измерение</value></data>
+  <data name="PleaseChooseDriver" xml:space="preserve"><value>Выберите драйвер ASIO</value></data>
+  <data name="PleaseChooseSettings" xml:space="preserve"><value>Выберите допустимые частоту дискретизации, размер буфера, входной и выходной каналы</value></data>
+  <data name="NoPulse" xml:space="preserve"><value>Возвратный импульс не обнаружен. Проверьте каналы, кабели и громкость</value></data>
+  <data name="MeasurementFailed" xml:space="preserve"><value>Ошибка измерения: {0}</value></data>
+  <data name="DriverUnavailable" xml:space="preserve"><value>Драйвер зарегистрирован, но оборудование не найдено. Подключите и включите устройство или закройте другую аудиопрограмму, использующую его.</value></data>
+  <data name="DriverCannotOpen" xml:space="preserve"><value>Не удалось открыть драйвер{0}{1}</value></data>
+  <data name="AsioDriverGone" xml:space="preserve"><value>Драйвер ASIO больше недоступен. Обновите список устройств</value></data>
+  <data name="UnsupportedSampleRate" xml:space="preserve"><value>Драйвер не поддерживает {0} Гц</value></data>
+  <data name="BufferUnsupported" xml:space="preserve"><value>Драйвер не поддерживает {0} samples; допустимый диапазон: {1} - {2}</value></data>
+  <data name="BufferActualMismatch" xml:space="preserve"><value>Драйвер создал буфер размером {0} samples вместо запрошенных {1}</value></data>
+  <data name="AudioCallbackFailed" xml:space="preserve"><value>Ошибка аудиоколбэка ASIO</value></data>
+  <data name="InputBufferChanged" xml:space="preserve"><value>Размер входного буфера ASIO изменился</value></data>
+  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>Формат выхода ASIO {0} пока не поддерживается</value></data>
+  <data name="InputFallback" xml:space="preserve"><value>Вход {0}</value></data>
+  <data name="OutputFallback" xml:space="preserve"><value>Выход {0}</value></data>
+  <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
+  <data name="SampleRateUnit" xml:space="preserve"><value>{0} Гц</value></data>
+</root>

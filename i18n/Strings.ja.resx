@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>エフェクター・レイテンシー測定</value></data>
+  <data name="Description" xml:space="preserve"><value>ローカル ASIO ドライバーを選択します。まずオーディオインターフェイスの直結基準を測定し、その後エフェクターボードを接続して遅延を測定します。</value></data>
+  <data name="WaveformGroup" xml:space="preserve"><value>最新テストの波形</value></data>
+  <data name="AsioDeviceGroup" xml:space="preserve"><value>ASIO デバイス</value></data>
+  <data name="Refresh" xml:space="preserve"><value>更新</value></data>
+  <data name="SampleRate" xml:space="preserve"><value>サンプルレート:</value></data>
+  <data name="BufferSize" xml:space="preserve"><value>バッファーサイズ:</value></data>
+  <data name="BufferTooltip" xml:space="preserve"><value>この測定で使用する ASIO バッファーサイズを選択</value></data>
+  <data name="OutputChannel" xml:space="preserve"><value>出力チャンネル:</value></data>
+  <data name="InputChannel" xml:space="preserve"><value>入力チャンネル:</value></data>
+  <data name="BaselineButton" xml:space="preserve"><value>インターフェイス直結基準を測定</value></data>
+  <data name="EffectButton" xml:space="preserve"><value>エフェクターループを測定</value></data>
+  <data name="BaselineNotRecorded" xml:space="preserve"><value>インターフェイス直結基準は未記録</value></data>
+  <data name="InitialLoading" xml:space="preserve"><value>ASIO ドライバーを読み込んでいます...</value></data>
+  <data name="RecentTest" xml:space="preserve"><value>最新のテスト</value></data>
+  <data name="DetectedLatency" xml:space="preserve"><value>検出された遅延 {0:F2} ms</value></data>
+  <data name="Time1Value" xml:space="preserve"><value>T1={0:F3} ms</value></data>
+  <data name="Time2DeltaValue" xml:space="preserve"><value>T2={0:F3} ms    Δ={1:F3} ms</value></data>
+  <data name="Time1Short" xml:space="preserve"><value>T1</value></data>
+  <data name="Time2Short" xml:space="preserve"><value>T2</value></data>
+  <data name="InputWaveform" xml:space="preserve"><value>入力波形</value></data>
+  <data name="OutputWaveform" xml:space="preserve"><value>出力波形</value></data>
+  <data name="CombinedWaveform" xml:space="preserve"><value>合成波形（入力 / 出力）</value></data>
+  <data name="WaveformEmpty" xml:space="preserve"><value>テストを完了すると入力/出力波形が表示されます</value></data>
+  <data name="Cursor" xml:space="preserve"><value>t={0:0.000}s  入力={1:0.000}  出力={2:0.000}</value></data>
+  <data name="TimeSeconds" xml:space="preserve"><value>{0:0.00}s</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>名前: {0}</value></data>
+  <data name="StateLabel" xml:space="preserve"><value>状態: {0}</value></data>
+  <data name="DriverReady" xml:space="preserve"><value>ドライバーを開けます</value></data>
+  <data name="CurrentSampleRate" xml:space="preserve"><value>現在のサンプルレート: {0} Hz</value></data>
+  <data name="BufferRange" xml:space="preserve"><value>バッファー: {0} - {1} samples、推奨 {2}</value></data>
+  <data name="InitialSelection" xml:space="preserve"><value>初期選択: {0} Hz / {1} samples</value></data>
+  <data name="SupportedSampleRates" xml:space="preserve"><value>対応サンプルレート: {0} Hz</value></data>
+  <data name="OutputChannelCount" xml:space="preserve"><value>出力チャンネル数: {0}</value></data>
+  <data name="InputChannelCount" xml:space="preserve"><value>入力チャンネル数: {0}</value></data>
+  <data name="DeviceParametersLoaded" xml:space="preserve"><value>デバイスパラメーターを読み込みました</value></data>
+  <data name="FoundDrivers" xml:space="preserve"><value>{0} 個の ASIO ドライバーが見つかりました</value></data>
+  <data name="NoDrivers" xml:space="preserve"><value>ASIO ドライバーが見つかりません</value></data>
+  <data name="ReadDriversFailed" xml:space="preserve"><value>ASIO ドライバーの読み取りに失敗しました</value></data>
+  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>ASIO ドライバーの読み取りに失敗しました: {0}</value></data>
+  <data name="BaselineStatus" xml:space="preserve"><value>インターフェイス直結基準を測定中です。出力が入力に直接接続されていることを確認してください...</value></data>
+  <data name="EffectStatus" xml:space="preserve"><value>エフェクターループを測定中です。エフェクターボードが接続され、音量が低いことを確認してください...</value></data>
+  <data name="BaselineRecorded" xml:space="preserve"><value>インターフェイス直結基準: {0:F2} ms（{1} samples）</value></data>
+  <data name="BaselineNext" xml:space="preserve"><value>直結基準を記録しました。エフェクターボードを接続して、エフェクターループを測定してください。</value></data>
+  <data name="PleaseBaseline" xml:space="preserve"><value>先にインターフェイス直結基準を測定してください</value></data>
+  <data name="EffectLatency" xml:space="preserve"><value>エフェクターボードの遅延: {0:F2} ms（往復合計 {1:F2} ms）</value></data>
+  <data name="EffectBelowBaseline" xml:space="preserve"><value>エフェクターループの結果が基準を下回っています: {0:F2} ms。配線を確認して再測定してください</value></data>
+  <data name="PleaseChooseDriver" xml:space="preserve"><value>ASIO ドライバーを選択してください</value></data>
+  <data name="PleaseChooseSettings" xml:space="preserve"><value>有効なサンプルレート、バッファーサイズ、入力チャンネル、出力チャンネルを選択してください</value></data>
+  <data name="NoPulse" xml:space="preserve"><value>戻りパルスを検出できません。入出力チャンネル、配線、音量を確認してください</value></data>
+  <data name="MeasurementFailed" xml:space="preserve"><value>測定に失敗しました: {0}</value></data>
+  <data name="DriverUnavailable" xml:space="preserve"><value>ドライバーは登録されていますが、ハードウェアが見つかりません。デバイスを接続して起動するか、使用中のオーディオプログラムを終了してください。</value></data>
+  <data name="DriverCannotOpen" xml:space="preserve"><value>ドライバーを開けません{0}{1}</value></data>
+  <data name="AsioDriverGone" xml:space="preserve"><value>ASIO ドライバーが利用できなくなりました。デバイス一覧を更新してください</value></data>
+  <data name="UnsupportedSampleRate" xml:space="preserve"><value>ドライバーは {0} Hz に対応していません</value></data>
+  <data name="BufferUnsupported" xml:space="preserve"><value>ドライバーは {0} samples に対応していません。許容範囲は {1} - {2} です</value></data>
+  <data name="BufferActualMismatch" xml:space="preserve"><value>ドライバーが要求した {1} ではなく {0} samples のバッファーを作成しました</value></data>
+  <data name="AudioCallbackFailed" xml:space="preserve"><value>ASIO オーディオコールバックに失敗しました</value></data>
+  <data name="InputBufferChanged" xml:space="preserve"><value>ASIO 入力バッファーサイズが変更されました</value></data>
+  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>ASIO 出力形式 {0} はまだサポートされていません</value></data>
+  <data name="InputFallback" xml:space="preserve"><value>入力 {0}</value></data>
+  <data name="OutputFallback" xml:space="preserve"><value>出力 {0}</value></data>
+  <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
+  <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+</root>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>效果器延遲檢測</value></data>
+  <data name="Description" xml:space="preserve"><value>選擇本機 ASIO 驅動程式，先測量聲卡直連基準，再接入效果器板測量實際延遲。</value></data>
+  <data name="WaveformGroup" xml:space="preserve"><value>最近一次測試波形</value></data>
+  <data name="AsioDeviceGroup" xml:space="preserve"><value>ASIO 裝置</value></data>
+  <data name="Refresh" xml:space="preserve"><value>重新整理</value></data>
+  <data name="SampleRate" xml:space="preserve"><value>取樣率:</value></data>
+  <data name="BufferSize" xml:space="preserve"><value>緩衝區大小:</value></data>
+  <data name="BufferTooltip" xml:space="preserve"><value>選擇本次測量使用的 ASIO 緩衝區大小</value></data>
+  <data name="OutputChannel" xml:space="preserve"><value>輸出通道:</value></data>
+  <data name="InputChannel" xml:space="preserve"><value>輸入通道:</value></data>
+  <data name="BaselineButton" xml:space="preserve"><value>測量聲卡直連基準</value></data>
+  <data name="EffectButton" xml:space="preserve"><value>測量效果器回路</value></data>
+  <data name="BaselineNotRecorded" xml:space="preserve"><value>尚未記錄聲卡直連基準</value></data>
+  <data name="InitialLoading" xml:space="preserve"><value>正在載入 ASIO 驅動程式...</value></data>
+  <data name="RecentTest" xml:space="preserve"><value>最近一次測試</value></data>
+  <data name="DetectedLatency" xml:space="preserve"><value>偵測到的延遲 {0:F2} ms</value></data>
+  <data name="Time1Value" xml:space="preserve"><value>T1={0:F3} ms</value></data>
+  <data name="Time2DeltaValue" xml:space="preserve"><value>T2={0:F3} ms    Δ={1:F3} ms</value></data>
+  <data name="Time1Short" xml:space="preserve"><value>T1</value></data>
+  <data name="Time2Short" xml:space="preserve"><value>T2</value></data>
+  <data name="InputWaveform" xml:space="preserve"><value>輸入波形</value></data>
+  <data name="OutputWaveform" xml:space="preserve"><value>輸出波形</value></data>
+  <data name="CombinedWaveform" xml:space="preserve"><value>疊加波形（輸入 / 輸出）</value></data>
+  <data name="WaveformEmpty" xml:space="preserve"><value>完成一次測試後顯示輸入/輸出波形</value></data>
+  <data name="Cursor" xml:space="preserve"><value>t={0:0.000}s  輸入={1:0.000}  輸出={2:0.000}</value></data>
+  <data name="TimeSeconds" xml:space="preserve"><value>{0:0.00}s</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>名稱: {0}</value></data>
+  <data name="StateLabel" xml:space="preserve"><value>狀態: {0}</value></data>
+  <data name="DriverReady" xml:space="preserve"><value>驅動程式可開啟</value></data>
+  <data name="CurrentSampleRate" xml:space="preserve"><value>目前取樣率: {0} Hz</value></data>
+  <data name="BufferRange" xml:space="preserve"><value>緩衝區: {0} - {1} samples，偏好值 {2}</value></data>
+  <data name="InitialSelection" xml:space="preserve"><value>初始選擇: {0} Hz / {1} samples</value></data>
+  <data name="SupportedSampleRates" xml:space="preserve"><value>支援的取樣率: {0} Hz</value></data>
+  <data name="OutputChannelCount" xml:space="preserve"><value>輸出通道數: {0}</value></data>
+  <data name="InputChannelCount" xml:space="preserve"><value>輸入通道數: {0}</value></data>
+  <data name="DeviceParametersLoaded" xml:space="preserve"><value>裝置參數已載入</value></data>
+  <data name="FoundDrivers" xml:space="preserve"><value>找到 {0} 個 ASIO 驅動程式</value></data>
+  <data name="NoDrivers" xml:space="preserve"><value>找不到 ASIO 驅動程式</value></data>
+  <data name="ReadDriversFailed" xml:space="preserve"><value>讀取 ASIO 驅動程式失敗</value></data>
+  <data name="ReadDriversFailedDetails" xml:space="preserve"><value>讀取 ASIO 驅動程式失敗: {0}</value></data>
+  <data name="BaselineStatus" xml:space="preserve"><value>正在測量聲卡直連基準，請確認輸出已直接接回輸入...</value></data>
+  <data name="EffectStatus" xml:space="preserve"><value>正在測量效果器回路，請確認效果器已接線且音量較低...</value></data>
+  <data name="BaselineRecorded" xml:space="preserve"><value>聲卡直連基準：{0:F2} ms（{1} samples）</value></data>
+  <data name="BaselineNext" xml:space="preserve"><value>直連基準已記錄。請接入效果器板，再測量效果器回路。</value></data>
+  <data name="PleaseBaseline" xml:space="preserve"><value>請先測量聲卡直連基準</value></data>
+  <data name="EffectLatency" xml:space="preserve"><value>效果器板延遲：{0:F2} ms（總往返 {1:F2} ms）</value></data>
+  <data name="EffectBelowBaseline" xml:space="preserve"><value>效果器回路結果低於基準：{0:F2} ms，請檢查接線或重新測量</value></data>
+  <data name="PleaseChooseDriver" xml:space="preserve"><value>請先選擇 ASIO 驅動程式</value></data>
+  <data name="PleaseChooseSettings" xml:space="preserve"><value>請先選擇有效的取樣率、緩衝區大小、輸入通道和輸出通道</value></data>
+  <data name="NoPulse" xml:space="preserve"><value>未偵測到返回脈衝，請檢查輸入輸出通道、接線和音量</value></data>
+  <data name="MeasurementFailed" xml:space="preserve"><value>測量失敗：{0}</value></data>
+  <data name="DriverUnavailable" xml:space="preserve"><value>驅動程式已註冊，但找不到硬體；請連接並啟動裝置，或關閉正在使用它的音訊程式</value></data>
+  <data name="DriverCannotOpen" xml:space="preserve"><value>無法開啟驅動程式{0}{1}</value></data>
+  <data name="AsioDriverGone" xml:space="preserve"><value>ASIO 驅動程式已無法使用，請重新整理裝置清單</value></data>
+  <data name="UnsupportedSampleRate" xml:space="preserve"><value>驅動程式不支援 {0} Hz</value></data>
+  <data name="BufferUnsupported" xml:space="preserve"><value>驅動程式不支援 {0} samples，允許範圍為 {1} - {2}</value></data>
+  <data name="BufferActualMismatch" xml:space="preserve"><value>驅動程式實際建立了 {0} samples 的緩衝區，而不是要求的 {1}</value></data>
+  <data name="AudioCallbackFailed" xml:space="preserve"><value>ASIO 音訊回呼失敗</value></data>
+  <data name="InputBufferChanged" xml:space="preserve"><value>ASIO 輸入緩衝區大小已變更</value></data>
+  <data name="UnsupportedOutputFormat" xml:space="preserve"><value>目前尚不支援 ASIO 輸出格式 {0}</value></data>
+  <data name="InputFallback" xml:space="preserve"><value>輸入 {0}</value></data>
+  <data name="OutputFallback" xml:space="preserve"><value>輸出 {0}</value></data>
+  <data name="BufferSamples" xml:space="preserve"><value>{0} samples</value></data>
+  <data name="SampleRateUnit" xml:space="preserve"><value>{0} Hz</value></data>
+</root>

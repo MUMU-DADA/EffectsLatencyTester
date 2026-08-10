@@ -1,81 +1,71 @@
-# 效果器延迟检测（.NET 原型）
+# Effects Pedal Latency Tester (.NET prototype)
 
-这是一个 Windows WPF/.NET 8 原型，使用 `NAudio.Asio` 列出、打开本机 ASIO 驱动，并通过声卡的输出/输入回路测量总往返延迟。
+[English](README.md) · [简体中文](docs/README.zh-CN.md) · [繁體中文](docs/README.zh-TW.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Português (Brasil)](docs/README.pt-BR.md) · [Русский](docs/README.ru.md)
 
-## 运行
+This Windows WPF/.NET 8 prototype uses `NAudio.Asio` to list and open local ASIO drivers, then measures the complete round-trip latency through an audio interface and an effects pedalboard.
+
+## Run
 
 ```powershell
 dotnet restore
 dotnet run --project .\LatencyTester.csproj
 ```
 
-当前页面完成：
+The application can list ASIO drivers, prefer the first driver that can be opened, read supported sample rates and buffer sizes, list named input/output channels, generate test pulses, detect the return pulse, measure a direct-interface baseline, measure the effects loop, and display input/output waveforms with a time axis.
 
-- 列出 ASIO 驱动；
-- 选择驱动；
-- 根据所选驱动读取当前采样率、支持的采样率、buffer 范围和首选 buffer，并允许选择本次测量使用的值；
-- 根据所选驱动列出带名称的输入/输出物理通道；
-- 尝试打开驱动并报告错误。
-- 以 0.8 振幅输出三个测试脉冲；
-- 从所选输入通道检测返回脉冲；
-- 先测量声卡直连基准，再测量效果器回路并计算两者差值。
-- 每次测试结束后，在窗口左侧绘制本次输出和输入波形，并显示秒级时间轴。
+## Hardware connection
 
-## 硬件连接
+1. Connect the audio interface ASIO output to the effects board input.
+2. Connect the effects board output back to an audio interface ASIO input.
+3. Disable Direct Monitoring to avoid a dry signal interfering with detection.
+4. Start with a low output volume.
 
-延迟测试需要：
+## Measurement
 
-1. 声卡 ASIO 输出连接到效果器板输入；
-2. 效果器板输出连接回声卡 ASIO 输入；
-3. 关闭声卡 Direct Monitoring，避免直通信号干扰检测；
-4. 先用低音量测试。
-
-## 延迟测量说明
-
-当前结果是“声卡输出 + 效果器板 + 声卡输入”的总往返延迟。若只想得到效果器板延迟，请先用一根线将声卡输出直接接回输入测量一次，再用下面的连接测量一次，最后用两次结果相减：
+The first result is the total round-trip latency of the audio interface output, effects board, and audio interface input. To isolate the effects-board latency, first connect the interface output directly to its input and measure the baseline, then measure the effects loop:
 
 ```text
-效果器板延迟 = 效果器回路总延迟 - 声卡直连基准延迟
+Effects-board latency = Effects-loop total latency - Direct-interface baseline latency
 ```
 
-测试过程中应关闭 Direct Monitoring，使用同一块声卡的 ASIO 输入和输出，并把输出音量调低。采样率、输入通道和输出通道均使用页面中的选择。
+Use the same audio interface for ASIO input and output, keep Direct Monitoring disabled, and use the sample rate, input channel, and output channel selected in the application.
 
-左侧波形区域显示最近一次测试的完整时间窗口，并分为“输入波形”“输出波形”和“叠加波形”三块。红色为程序输出脉冲，青色为声卡输入回波；横轴为从测试开始计算的时间，纵轴为归一化振幅。鼠标移动到绘图区后，三块区域会同步显示竖直游标和对应采样值；普通滚轮可同步横向滚动，按住鼠标左键可同步横向拖动，按住 `Ctrl` 滚轮可同步缩放，缩放后底部才会显示滚动条以调整当前时间窗口。连续单击两次曲线可记录 T1/T2，并自动显示时间差。若没有检测到回波，波形仍会保留，便于检查接线、通道和音量。
+The waveform view shows the latest test as separate input, output, and combined panels. The red curve is the generated output pulse and the cyan curve is the input return. The normal mouse wheel pans horizontally, dragging pans horizontally, and `Ctrl` + mouse wheel zooms. Two clicks record T1 and T2 and show their time difference. A waveform is kept even when no return pulse is detected so that cabling, channel selection, and volume can be checked.
 
-页面中的 buffer 列表来自 ASIO 驱动的最小值、最大值、粒度和首选值。测量时会按页面所选值创建 ASIO 缓冲区；如果驱动拒绝该值，页面会显示错误。设备或其他音频程序占用驱动时，仍需先释放占用后再测量。
+The buffer list is built from the ASIO driver's minimum, maximum, granularity, and preferred values. If the driver rejects the selected buffer, the application reports the error. A driver may also be unavailable when another audio application has opened it.
 
-## 国际化
+## Internationalization
 
-界面文本统一放在资源文件中：`Strings.resx` 是英语默认资源，`Strings.zh.resx` 是中文资源。程序启动时读取当前系统 UI 语言；例如 `zh-CN`、`zh-HK` 会回退到 `zh` 资源，未提供的语言则回退到英语。新增语言时，按相同命名规则添加 `Strings.<culture>.resx` 即可。
+`i18n/Strings.resx` is the English default resource. Localized resources are provided for Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Brazilian Portuguese, and Russian. The application reads the system UI culture at startup; unsupported cultures fall back to English. Add a file named `i18n/Strings.<culture>.resx` to add another locale.
 
-## 发布
+## Publish
 
-项目包含一个像素风格图标，源文件为 `Assets/LatencyTesterIcon.svg`，构建使用 `Assets/LatencyTesterIcon.ico`。执行下面的脚本会默认发布全部 Windows 架构的自包含单文件程序：
+The project includes a pixel-style icon. `Assets/LatencyTesterIcon.svg` is the editable vector reference and `Assets/LatencyTesterIcon.ico` is used by the build. Run the following command to publish all Windows architectures as self-contained single-file applications:
 
 ```powershell
 .\publish.ps1
 ```
 
-输出文件为 `artifacts/publish/win-x86/LatencyTester.exe`、`artifacts/publish/win-x64/LatencyTester.exe` 和 `artifacts/publish/win-arm64/LatencyTester.exe`，目标电脑不需要安装 .NET 运行时。程序仍需要 Windows 和对应的 ASIO 驱动；ASIO 驱动本身不会被打包进程序。
+The output files are:
 
-发布脚本还支持其他 Windows 架构：
+```text
+artifacts/publish/win-x86/LatencyTester.exe
+artifacts/publish/win-x64/LatencyTester.exe
+artifacts/publish/win-arm64/LatencyTester.exe
+```
+
+The target computer does not need the .NET runtime, but it still needs Windows and an ASIO driver that matches the application architecture. The ASIO driver itself is not bundled.
+
+To publish only one architecture:
 
 ```powershell
+.\publish.ps1 -Runtime win-x64
 .\publish.ps1 -Runtime win-x86
 .\publish.ps1 -Runtime win-arm64
 ```
 
-不指定 `-Runtime` 时默认发布全部 Windows 架构；如果只需要某一种架构，可以传入 `-Runtime win-x64` 等参数。ASIO 驱动必须与程序架构一致：x86 程序需要 x86 驱动，x64 程序需要 x64 驱动，ARM64 程序需要 ARM64 驱动。当前项目仍是 WPF + `NAudio.Asio`，所以不能直接发布到 Linux 或 macOS；这些系统需要替换为跨平台 UI 和音频后端。
+`win-x64` and `win-x86` are verified targets. `win-arm64` can be published but requires an ARM64 ASIO driver. Linux and macOS are not currently supported because the application uses Windows WPF and `NAudio.Asio`; supporting them requires a cross-platform UI and audio backend.
 
-当前发布目标：
+`NAudio.Asio` is a Windows-only ASIO backend. If only a 32-bit ASIO driver is available, publish with `-Runtime win-x86`.
 
-| 目标 | 状态 |
-| --- | --- |
-| `win-x64` | 支持并已验证 |
-| `win-x86` | 支持并已验证 |
-| `win-arm64` | 可发布；需要 ARM64 ASIO 驱动 |
-| Linux / macOS | 当前不支持 |
-
-`NAudio.Asio` 位于 Windows-only 的 ASIO 后端；如果只有 32 位 ASIO 驱动，请使用 `-Runtime win-x86` 发布。
-
-列表中的驱动代表系统中已注册的 ASIO 驱动，不代表硬件当前在线。例如 Katana 驱动在设备未连接、设备休眠或被其他音频程序占用时会显示“驱动已注册，但当前没有找到硬件”；这不影响使用其他可打开的 ASIO 设备。
+The driver list contains drivers registered in Windows and does not guarantee that the hardware is online. For example, a Katana driver may be registered while the device is disconnected, sleeping, or in use by another audio application; this does not affect other available ASIO devices.
